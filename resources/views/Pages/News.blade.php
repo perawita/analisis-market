@@ -18,29 +18,32 @@
                         <p class="text-center">{{ $error['text2'] }}</p>
                     @endforeach
                 @else
-                    <table class="table table-bordered border-primary">
-                        <thead>
-                            <tr>
-                                <th class="border">No</th>
-                                <th class="border">Image</th>
-                                <th class="border">Title</th>
-                                <th class="border">Link</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($news as $index => $data)
-                                <tr>
-                                    <td class="border">{{ $index + 1 }}</td>
-                                    <td class="border"><img src="{{ $data['thumbnail'] }}" alt="News Image"></td>
-                                    <td class="border">{{ $data['title'] }}</td>
-                                    <td class="border"><a href="{{ $data['link'] }}" target="blank">Link</a></td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                @endif
+                    <div class="card-body">
+                        @foreach ($news as $index => $data)
+                            <div
+                                class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                                <div class="col p-4 d-flex flex-column position-static">
+                                    <strong class="d-inline-block mb-2 text-primary">World News</strong>
+                                    <h3 class="mb-0">{{ $data['title'] }}</h3>
+                                    <div class="mb-1 text-muted">{{ $data['source'] }}</div>
+                                    <p class="card-text mb-auto">{{ Str::limit($data['description'], 250) }}</p>
+                                    <a href="{{ $data['link'] }}" target="blank" class="stretched-link">Continue
+                                        reading</a>
+                                </div>
+                                <div class="col-auto d-none d-lg-block">
+                                    <img class="bd-placeholder-img" width="200" height="200"
+                                        src="{{ $data['thumbnail'] }}" role="img"
+                                        aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice"
+                                        focusable="false">
+
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
             </div>
+            @endif
         </div>
     </div>
+</div>
 </div>
 @include('Footers')

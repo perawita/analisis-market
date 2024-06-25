@@ -26,6 +26,8 @@
                     </tbody>
                 </table>
             </div>
+            <br>
+            @include('Compare')
         </div>
     </div>
 </div>

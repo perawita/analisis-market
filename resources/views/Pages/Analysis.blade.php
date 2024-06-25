@@ -5,30 +5,34 @@
             @include('Profile')
             <br>
 
-            <div class="card">
-                <div class="card-header">
-                    Analysis
-                </div>
+            {{-- Loop untuk semua data --}}
+            @foreach ($response as $section => $data)
+                <div class="card">
+                    <div class="card-header">
+                        {{ ucfirst($section) }}
+                    </div>
 
-                <table class="table table-bordered border-primary">
-                    <thead>
-                        <tr>
-                            @foreach ($response['labels'] as $label)
-                                <th class="border">{{ $label }}</th>
-                            @endforeach
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($response['values'] as $row)
+                    <table class="table table-bordered border-primary">
+                        <thead>
                             <tr>
-                                @foreach ($row as $value)
-                                    <td class="border">{{ $value }}</td>
+                                @foreach ($data['labels'] as $label)
+                                    <th class="border">{{ $label }}</th>
                                 @endforeach
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            @foreach ($data['values'] as $row)
+                                <tr>
+                                    @foreach ($row as $value)
+                                        <td class="border">{{ $value }}</td>
+                                    @endforeach
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+            @endforeach
         </div>
     </div>
 </div>

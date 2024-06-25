@@ -14,11 +14,10 @@ use App\Http\Controllers\ScrapingController;
 |
 */
 
-Route::get('/', function () {
-    return view('Index');
-})->name('Index');
+Route::get('/', [ScrapingController::class, 'index'])->name('Index');
 
 Route::get('/Search', [ScrapingController::class, '_HandlePencarian'])->name('cari-data');
+
 Route::get('/quote/{Symbol}', [ScrapingController::class, 'summary'])->name('summary');
 Route::get('/quote/{Symbol}/news', [ScrapingController::class, 'news'])->name('news');
 Route::get('/quote/{Symbol}/chart', [ScrapingController::class, 'chart'])->name('chart');
@@ -28,9 +27,15 @@ Route::get('/quote/{Symbol}/options', [ScrapingController::class, 'options'])->n
 Route::get('/quote/{Symbol}/components', [ScrapingController::class, 'components'])->name('components');
 Route::get('/quote/{Symbol}/profile', [ScrapingController::class, 'profile'])->name('profile');
 Route::get('/quote/{Symbol}/key-statistics', [ScrapingController::class, 'statistics'])->name('statistics');
+
 Route::get('/quote/{Symbol}/financials', [ScrapingController::class, 'financials'])->name('financials');
+Route::get('/quote/{Symbol}/balance-sheet', [ScrapingController::class, 'balancesheet'])->name('balance-sheet');
+Route::get('/quote/{Symbol}/cash-flow', [ScrapingController::class, 'cashflow'])->name('cash-flow');
+
 Route::get('/quote/{Symbol}/analysis', [ScrapingController::class, 'analysis'])->name('analysis');
 Route::get('/quote/{Symbol}/holders', [ScrapingController::class, 'holders'])->name('holders');
 Route::get('/quote/{Symbol}/sustainability', [ScrapingController::class, 'sustainability'])->name('sustainability');
 
 
+Route::get('/quote/compare/{symbol}', [ScrapingController::class, 'compare'])->name('compare');
+Route::get('/quote/compare/{symbol}?comps={symbol-array}', [ScrapingController::class, 'compare'])->name('compare-array');

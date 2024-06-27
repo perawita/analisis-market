@@ -58,7 +58,7 @@
                 <div class="col-md-7 col-lg-8">
 
                     <h4 class="mb-3">Margin of Safety (MoS)</h4>
-                    <form class="needs-validation" action="{{route('Callculator-result')}}" method="POST">
+                    <form class="needs-validation" action="{{route('Calculator-result')}}" method="POST">
                         @csrf
                         <div class="row gy-3">
                             <div class="col-md-6">

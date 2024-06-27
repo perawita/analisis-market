@@ -5,16 +5,20 @@ use Illuminate\Http\Request;
 
 class CallculatorController extends Controller
 {
-    public function index(Request $requset)
+    public function index(Request $requset = null)
     {
-        $eps = $request->input('eps');
-        $growth_rate = $request->input('growth_rate');
-        $current_stock_price = $request->input('current_stock_price');
-
-        $request_results = $this->callculator($eps, $growth_rate, $current_stock_price);
-        return view('Pages.Callculator', [
-            'results' => $request_results,
-        ]);
+        if($request){
+            $eps = $request->input('eps');
+            $growth_rate = $request->input('growth_rate');
+            $current_stock_price = $request->input('current_stock_price');
+    
+            $request_results = $this->callculator($eps, $growth_rate, $current_stock_price);
+            return view('Pages.Callculator', [
+                'results' => $request_results,
+            ]);
+        }else{
+            return view('Pages.Callculator');
+        }
     }
 
     /**

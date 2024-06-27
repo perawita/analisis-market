@@ -96,11 +96,6 @@ class ScrapingController extends Controller
         }
     }
 
-    public function callculator()
-    {
-        return view('Pages.Callculator');
-    }
-
     public function profiles($symbol)
     {
         try {

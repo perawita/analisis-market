@@ -15,6 +15,15 @@
     </div>
 
     <br>
+    
+    <div class="card">
+        <div class="card-body">
+            <h5 class="text-center">Layanan yang tersedia</h5>
+            <p class="text-center">Gunakan tools yang tersedia untuk mendapatkan data saham terbaru</p>
+        </div>
+    </div>
+
+    <br>
 
     <div class="card">
         <div class="card-header">

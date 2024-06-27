@@ -547,7 +547,6 @@ class ScrapingController extends Controller
         }
     }
 
-
     public function options($symbol)
     {
         try {
@@ -1025,7 +1024,6 @@ class ScrapingController extends Controller
             ]);
         }
     }
-
 
     public function holders($symbol)
     {

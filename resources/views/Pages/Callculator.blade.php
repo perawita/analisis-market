@@ -21,38 +21,36 @@
         </div>
         <div class="card-body">
             <div class="row g-5">
-                @if($results)
-                @foreach($results as $data)
-                <div class="col-md-5 col-lg-4 order-md-last">
-                    <h4 class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="text-primary">nilai intrinsik, harga saham saat ini, dan margin of safety</span>
-                    </h4>
-                    <ul class="list-group mb-3">
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <h6 class="my-0">Intrinsik</h6>
-                                <small class="text-body-secondary">Nilai intrinsik</small>
-                            </div>
-                            <span class="text-body-secondary">{{$data['Intrinsik']}}</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <h6 class="my-0">Harga Saham Saat Ini</h6>
-                                <small class="text-body-secondary">Harga saham saat ini</small>
-                            </div>
-                            <span class="text-body-secondary">{{$data['Harga']}}</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <h6 class="my-0">Margin of Safety</h6>
-                                <small class="text-body-secondary">Margin of safety</small>
-                            </div>
-                            <span class="text-body-secondary">{{$data['mos']}}</span>
-                        </li>
-                    </ul>
-                </div>
-                @endforeach
-                @endif
+                    @foreach($results as $data)
+                    <div class="col-md-5 col-lg-4 order-md-last">
+                        <h4 class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="text-primary">nilai intrinsik, harga saham saat ini, dan margin of safety</span>
+                        </h4>
+                        <ul class="list-group mb-3">
+                            <li class="list-group-item d-flex justify-content-between lh-sm">
+                                <div>
+                                    <h6 class="my-0">Intrinsik</h6>
+                                    <small class="text-body-secondary">Nilai intrinsik</small>
+                                </div>
+                                <span class="text-body-secondary">{{$data['Intrinsik']}}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between lh-sm">
+                                <div>
+                                    <h6 class="my-0">Harga Saham Saat Ini</h6>
+                                    <small class="text-body-secondary">Harga saham saat ini</small>
+                                </div>
+                                <span class="text-body-secondary">{{$data['Harga']}}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between lh-sm">
+                                <div>
+                                    <h6 class="my-0">Margin of Safety</h6>
+                                    <small class="text-body-secondary">Margin of safety</small>
+                                </div>
+                                <span class="text-body-secondary">{{$data['mos']}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                    @endforeach
 
                 <div class="col-md-7 col-lg-8">
 

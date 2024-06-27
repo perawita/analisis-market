@@ -17,14 +17,15 @@
 
     <div class="card">
         <div class="card-header">
-            Callculator
+            Calculator
         </div>
         <div class="card-body">
             <div class="row g-5">
+                @if($results)
                     @foreach($results as $data)
                     <div class="col-md-5 col-lg-4 order-md-last">
                         <h4 class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="text-primary">nilai intrinsik, harga saham saat ini, dan margin of safety</span>
+                            <span class="text-primary">Nilai Intrinsik, Harga Saham Saat Ini, dan Margin of Safety</span>
                         </h4>
                         <ul class="list-group mb-3">
                             <li class="list-group-item d-flex justify-content-between lh-sm">
@@ -51,6 +52,8 @@
                         </ul>
                     </div>
                     @endforeach
+                @endif
+
 
                 <div class="col-md-7 col-lg-8">
 

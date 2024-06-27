@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ScrapingController;
-use App\Http\Controllers\CallculatorController;
+use App\Http\Controllers\CalculatorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,8 +16,8 @@ use App\Http\Controllers\CallculatorController;
 */
 
 Route::get('/', [ScrapingController::class, 'index'])->name('Index');
-Route::get('/Callculator', [CallculatorController::class, 'index'])->name('Callculator');
-Route::post('/Callculator-result', [CallculatorController::class, 'index'])->name('Callculator-result');
+Route::get('/Calculator', [CalculatorController::class, 'index'])->name('Calculator');
+Route::post('/Calculator-result', [CalculatorController::class, 'index'])->name('Calculator-result');
 
 Route::get('/Search', [ScrapingController::class, '_HandlePencarian'])->name('cari-data');
 

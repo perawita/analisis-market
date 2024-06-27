@@ -46,7 +46,7 @@ class CalculatorController extends Controller
         return [  
             'intrinsik' => $intrinsic_value,
             'harga' => $current_stock_price,
-            'mos' => (string)$margin_of_safety.'%',
+            'mos' => (string)$margin_of_safety . '%',
         ];
     }
 }

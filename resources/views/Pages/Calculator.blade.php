@@ -21,7 +21,7 @@
         </div>
         <div class="card-body">
             <div class="row g-5">
-
+<p>gggggg</p>
                 <div class="col-md-7 col-lg-8">
 
                     <h4 class="mb-3">Margin of Safety (MoS)</h4>

@@ -36,6 +36,20 @@
                             </a>
                         </div>
                     </div>
+                    <div class="col d-flex align-items-start">
+                        <div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+                            <svg class="bi" width="1em" height="1em">
+                                <use xlink:href="#tools"></use>
+                            </svg>
+                        </div>
+                        <div>
+                            <h2>Callculator</h2>
+                            <p>Anda dapat menghitung nilai intrinsik sebuah saham menggunakan rumus Graham dan menentukan margin of safety-nya.</p>
+                            <a href="#" class="btn btn-primary">
+                                Coba
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

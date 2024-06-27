@@ -289,33 +289,23 @@ class ScrapingController extends Controller
                 });
 
                 $compare = $crawler->filter('div.scroll-carousel[data-testid="carousel-container"]')
-                ->filter('section.card.small.svelte-13ievhf.bdr.sticky[data-testid="card-container"]')
-                ->each(function ($node) {
-                    $ticker = $node->filter('span')->text();
-                    $companyName = $node->filter('div.longName.svelte-15b2o7n')->text();
-                    $symbol = $node->filter('a')->attr('aria-label');
-                    $price = $node->filter('div.price.svelte-15b2o7n')->text();
-                    $changes = $node->filter('div.changes.svelte-15b2o7n > span')->text();
-                    $marketCap = $node->filter('div.moreInfo.mktCap.svelte-15b2o7n > span.value.svelte-15b2o7n')->text();
-                    $industry = $node->filter('div.moreInfo.svelte-15b2o7n > span.value.svelte-15b2o7n')->eq(1)->text();
-            
-                    return [
-                        'ticker' => $ticker ?? null,
-                        'companyName' => $companyName ?? null,
-                        'symbol' => $symbol ?? null,
-                        'price' => $price ?? null,
-                        'changes' => $changes ?? null,
-                        'marketCap' => $marketCap ?? null,
-                        'industry' => $industry ?? null
-                    ];
-                });
-            
-                $titleNode = $crawler->filter('section[data-testid="compare-to"]')->filter('h3.header.svelte-1trny4b');
+                    ->filter('section.card.small.svelte-1v51y3z.bdr.sticky[data-testid="card-container"]')->each(function ($node) {
+                        $ticker = $node->filter('span')->text();
+                        $companyName = $node->filter('div')->text();
+                        $symbol = $node->filter('a')->attr('aria-label');
+
+                        return [
+                            'ticker' => $ticker ?? null,
+                            'companyName' => $companyName ?? null,
+                            'symbol' => $symbol ?? null
+                        ];
+                    });
+
+                $titleNode = $crawler->filter('section[data-testid="compare-to"]')->filter('h3');
                 $title = $titleNode->count() ? $titleNode->text() : 'People Also Watch';
-                
+
                 $buttonNode = $crawler->filter('section[data-testid="compare-to"]')->filter('a[data-testid="compare-to-link"]');
                 $button = $buttonNode->count() ? $buttonNode->attr('href') : null;
-                
 
                 $profiles = $this->profiles($symbol);
 

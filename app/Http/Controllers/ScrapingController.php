@@ -295,9 +295,9 @@ class ScrapingController extends Controller
                         $symbol = $node->filter('a')->attr('aria-label');
 
                         return [
-                            'ticker' => $ticker,
-                            'companyName' => $companyName,
-                            'symbol' => $symbol
+                            'ticker' => $ticker ?? null,
+                            'companyName' => $companyName ?? null,
+                            'symbol' => $symbol ?? null
                         ];
                     });
 

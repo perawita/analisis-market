@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 
 class CallculatorController extends Controller
 {
-    public function index(Request $requset = null)
+    public function index(Request $request = null)
     {
         if($request){
             $eps = $request->input('eps');

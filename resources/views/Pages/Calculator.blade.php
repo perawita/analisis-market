@@ -28,13 +28,13 @@
                             <span class="text-primary">Nilai Intrinsik, Harga Saham Saat Ini, dan Margin of Safety</span>
                         </h4>
                         <ul class="list-group mb-3">
-                            <li class="list-group-item d-flex justify-content-between lh-sm">
+                            {{-- <li class="list-group-item d-flex justify-content-between lh-sm">
                                 <div>
                                     <h6 class="my-0">Intrinsik</h6>
                                     <small class="text-body-secondary">Nilai intrinsik</small>
                                 </div>
                                 <span class="text-body-secondary">{{ $data['intrinsik'] }}</span>
-                            </li>
+                            </li> --}}
                             <li class="list-group-item d-flex justify-content-between lh-sm">
                                 <div>
                                     <h6 class="my-0">Harga Saham Saat Ini</h6>

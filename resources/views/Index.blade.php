@@ -31,7 +31,7 @@
                         <div>
                             <h2>Callculator</h2>
                             <p>Anda dapat menghitung nilai intrinsik sebuah saham menggunakan rumus Graham dan menentukan margin of safety-nya.</p>
-                            <a href="#" class="btn btn-primary">
+                            <a href="{{route('Callculator')}}" class="btn btn-primary">
                                 Coba
                             </a>
                         </div>

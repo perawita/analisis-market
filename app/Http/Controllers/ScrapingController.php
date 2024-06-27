@@ -83,7 +83,6 @@ class ScrapingController extends Controller
                     ];
                 });
 
-                // return dd($news);
                 return view('Index', [
                     'news' => $news,
                 ]);
@@ -95,6 +94,11 @@ class ScrapingController extends Controller
                 'error' => 'Index => ' . $e->getMessage(),
             ]);
         }
+    }
+
+    public function callculator()
+    {
+        return view('Pages.Callculator');
     }
 
     public function profiles($symbol)

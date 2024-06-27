@@ -44,9 +44,9 @@ class CalculatorController extends Controller
         $margin_of_safety = (($intrinsic_value - $current_stock_price) / $intrinsic_value) * 100;
 
         return [  
-            'Intrinsik' => $intrinsic_value,
-            'Harga' => $current_stock_price,
-            'mos' => number_format($margin_of_safety, 2) . '%',
+            'intrinsik' => $growth_rate,
+            'harga' => $current_stock_price,
+            'mos' => (string)$margin_of_safety.'%',
         ];
     }
 }

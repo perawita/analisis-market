@@ -33,14 +33,14 @@
                                     <h6 class="my-0">Intrinsik</h6>
                                     <small class="text-body-secondary">Nilai intrinsik</small>
                                 </div>
-                                <span class="text-body-secondary">{{$data['Intrinsik']}}</span>
+                                <span class="text-body-secondary">{{ $data['intrinsik'] }}</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between lh-sm">
                                 <div>
                                     <h6 class="my-0">Harga Saham Saat Ini</h6>
                                     <small class="text-body-secondary">Harga saham saat ini</small>
                                 </div>
-                                <span class="text-body-secondary">{{$data['Harga']}}</span>
+                                <span class="text-body-secondary">{{$data['harga']}}</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between lh-sm">
                                 <div>

@@ -20,7 +20,7 @@ class CalculatorController extends Controller
             $current_stock_price = $request->input('current_stock_price');
     
             $request_results = $this->calculate($eps, $growth_rate, $current_stock_price);
-            return view('Pages.Calculator', [
+            return view('Pages.Calculator-result', [
                 'results' => $request_results,
             ]);
         } else {

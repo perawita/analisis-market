@@ -24,9 +24,7 @@ class CalculatorController extends Controller
                 'results' => $request_results,
             ]);
         } else {
-            return view('Pages.Calculator', [
-                'results' => null
-            ]);
+            return view('Pages.Calculator');
         }
     }
 

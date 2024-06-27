@@ -14,17 +14,19 @@ class CalculatorController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request) {
-            $eps = $request->input('eps');
-            $growth_rate = $request->input('growth_rate');
-            $current_stock_price = $request->input('current_stock_price');
-    
+        $eps = $request->input('eps');
+        $growth_rate = $request->input('growth_rate');
+        $current_stock_price = $request->input('current_stock_price');
+
+        if ($eps && $growth_rate && $current_stock_price) {
             $request_results = $this->calculate($eps, $growth_rate, $current_stock_price);
-            return view('Pages.Calculator-result', [
+            return view('Pages.Calculator', [
                 'results' => $request_results,
             ]);
         } else {
-            return view('Pages.Calculator');
+            return view('Pages.Calculator', [
+                'results' => null
+            ]);
         }
     }
 

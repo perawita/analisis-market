@@ -21,94 +21,64 @@
         </div>
         <div class="card-body">
             <div class="row g-5">
+                @forelse ($results as $data)
                 <div class="col-md-5 col-lg-4 order-md-last">
                     <h4 class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="text-primary">Your cart</span>
-                        <span class="badge bg-primary rounded-pill">3</span>
+                        <span class="text-primary">nilai intrinsik, harga saham saat ini, dan margin of safety</span>
                     </h4>
                     <ul class="list-group mb-3">
                         <li class="list-group-item d-flex justify-content-between lh-sm">
                             <div>
-                                <h6 class="my-0">Product name</h6>
-                                <small class="text-body-secondary">Brief description</small>
+                                <h6 class="my-0">Intrinsik</h6>
+                                <small class="text-body-secondary">Nilai intrinsik</small>
                             </div>
-                            <span class="text-body-secondary">$12</span>
+                            <span class="text-body-secondary">{{$data['Intrinsik']}}</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between lh-sm">
                             <div>
-                                <h6 class="my-0">Second product</h6>
-                                <small class="text-body-secondary">Brief description</small>
+                                <h6 class="my-0">Harga Saham Saat Ini</h6>
+                                <small class="text-body-secondary">Harga saham saat ini</small>
                             </div>
-                            <span class="text-body-secondary">$8</span>
+                            <span class="text-body-secondary">{{$data['Harga']}}</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between lh-sm">
                             <div>
-                                <h6 class="my-0">Third item</h6>
-                                <small class="text-body-secondary">Brief description</small>
+                                <h6 class="my-0">Margin of Safety</h6>
+                                <small class="text-body-secondary">Margin of safety</small>
                             </div>
-                            <span class="text-body-secondary">$5</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between bg-body-tertiary">
-                            <div class="text-success">
-                                <h6 class="my-0">Promo code</h6>
-                                <small>EXAMPLECODE</small>
-                            </div>
-                            <span class="text-success">−$5</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Total (USD)</span>
-                            <strong>$20</strong>
+                            <span class="text-body-secondary">{{$data['mos']}}</span>
                         </li>
                     </ul>
-
-                    <form class="card p-2">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Promo code">
-                            <button type="submit" class="btn btn-secondary">Redeem</button>
-                        </div>
-                    </form>
                 </div>
+                @empty
+
+                @endforelse
+
                 <div class="col-md-7 col-lg-8">
-                <h4 class="mb-3">Graham's Valuation</h4>
+
+                    <h4 class="mb-3">Margin of Safety (MoS)</h4>
                     <form class="needs-validation" novalidate="">
+                        @csrf
                         <div class="row gy-3">
                             <div class="col-md-6">
-                                <label for="cc-name" class="form-label">Name on card</label>
-                                <input type="text" class="form-control" id="cc-name" placeholder="" required="">
-                                <small class="text-body-secondary">Full name as displayed on card</small>
-                                <div class="invalid-feedback">
-                                    Name on card is required
-                                </div>
+                                <label for="eps" class="form-label">EPS</label>
+                                <input type="text" class="form-control" id="eps" name="eps" required="true">
+                            </div>
+
+                            <div class="col-md-3">
+                                <label for="growth_rate" class="form-label">Growth rate prjection</label>
+                                <input type="text" class="form-control" id="growth_rate" name="growth_rate" required="true">
                             </div>
 
                             <div class="col-md-6">
-                                <label for="cc-number" class="form-label">Credit card number</label>
-                                <input type="text" class="form-control" id="cc-number" placeholder="" required="">
-                                <div class="invalid-feedback">
-                                    Credit card number is required
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <label for="cc-expiration" class="form-label">Expiration</label>
-                                <input type="text" class="form-control" id="cc-expiration" placeholder="" required="">
-                                <div class="invalid-feedback">
-                                    Expiration date required
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <label for="cc-cvv" class="form-label">CVV</label>
-                                <input type="text" class="form-control" id="cc-cvv" placeholder="" required="">
-                                <div class="invalid-feedback">
-                                    Security code required
-                                </div>
+                                <label for="current_stock_price" class="form-label">PE of company w/ no growth</label>
+                                <input type="text" class="form-control" id="current_stock_price" name="current_stock_price" required="true">
                             </div>
                         </div>
 
                         <hr class="my-4">
 
-                        <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
+                        <button class="w-100 btn btn-primary btn-lg" type="submit">Get results</button>
                     </form>
                 </div>
             </div>

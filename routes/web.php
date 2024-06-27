@@ -16,7 +16,7 @@ use App\Http\Controllers\CallculatorController;
 */
 
 Route::get('/', [ScrapingController::class, 'index'])->name('Index');
-Route::get('/Callculator', [CallculatorController::class, 'callculator'])->name('Callculator');
+Route::get('/Callculator', [CallculatorController::class, 'index'])->name('Callculator');
 
 Route::get('/Search', [ScrapingController::class, '_HandlePencarian'])->name('cari-data');
 

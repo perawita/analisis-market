@@ -30,22 +30,9 @@ class CallculatorController extends Controller
      */
     private function callculator($eps, $growth_rate, $current_stock_price) : array
     {
-        // Earnings per share
-        // $eps = 5.00; 
-        
-        // Growth rate
-        // $growth_rate = 0.08; 
-        
-        // Calculate intrinsic value
         $intrinsic_value = $eps * (8.5 + 2 * $growth_rate);
-
-        // Current stock price
-        // $current_stock_price = 50.00; 
-
-        // Calculate margin of safety
         $margin_of_safety = (($intrinsic_value - $current_stock_price) / $intrinsic_value) * 100;
 
-        // Return results
         return [  
             'Intrinsik' => $growth_rate,
             'Harga' => $current_stock_price,

@@ -21,7 +21,8 @@
         </div>
         <div class="card-body">
             <div class="row g-5">
-                @forelse ($results as $data)
+                @if(results !== null)
+                @foreach($results as $data)
                 <div class="col-md-5 col-lg-4 order-md-last">
                     <h4 class="d-flex justify-content-between align-items-center mb-3">
                         <span class="text-primary">nilai intrinsik, harga saham saat ini, dan margin of safety</span>
@@ -50,9 +51,8 @@
                         </li>
                     </ul>
                 </div>
-                @empty
-
-                @endforelse
+                @endforeach
+                @endif
 
                 <div class="col-md-7 col-lg-8">
 

@@ -17,7 +17,9 @@ class CallculatorController extends Controller
                 'results' => $request_results,
             ]);
         }else{
-            return view('Pages.Callculator');
+            return view('Pages.Callculator', [
+                'results' => null
+            ]);
         }
     }
 

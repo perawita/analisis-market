@@ -12,7 +12,7 @@ class CalculatorController extends Controller
      * @param Request|null $request
      * @return \Illuminate\View\View
      */
-    public function index(Request $request = null)
+    public function index(Request $request)
     {
         if ($request) {
             $eps = $request->input('eps');

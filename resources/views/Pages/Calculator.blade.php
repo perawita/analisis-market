@@ -13,7 +13,7 @@
 
         <br>
 
-        {{-- @if($results) --}}
+        @if($results)
         <div class="card-body">
             <div class="row g-5">
 
@@ -71,7 +71,7 @@
                 </div>
             </div>
         </div>
-        {{-- @endif --}}
+        @endif
 
     </div>
 

@@ -3,7 +3,7 @@
     <div class="card">
         <div class="card-body">
             <h5 class="text-center">Dapatkan nilai intrinsik sebuah saham serta Margin of Safety (MoS) sebuah saham</h5>
-            <p class="text-center">Menghitung nilai intrinsik sebuah saham serta Margin of Safety (MoS)</p>
+            <p class="text-center">Menghitung nilai intrinsik sebuah saham serta Margin of Safety (MoS), dengan mencari symbol nya langsung</p>
             <form method="GET" action="{{ route('cari-data') }}" <div class="input-group mb-3">
                 @csrf
                 <input type="search" class="form-control" name="cari-nama" id="cari-nama" placeholder="Search for Symbols" aria-label="Search">

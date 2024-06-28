@@ -16,54 +16,59 @@
         {{-- @if($results) --}}
         <div class="card-body">
             <div class="row g-5">
-                <div class="col-md-5 col-lg-4 order-md-last">
-                    <h4 class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="text-primary">Results</span>
-                    </h4>
-                    <ul class="list-group mb-3">
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <h6 class="my-0">Intrinsik</h6>
-                                <small class="text-body-secondary">Nilai intrinsik</small>
-                            </div>
-                            <span class="text-body-secondary"></span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <h6 class="my-0">Harga Saham Saat Ini</h6>
-                                <small class="text-body-secondary">Harga saham saat ini</small>
-                            </div>
-                            <span class="text-body-secondary"></span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <h6 class="my-0">Margin of Safety</h6>
-                                <small class="text-body-secondary">Margin of safety</small>
-                            </div>
-                            <span class="text-body-secondary"></span>
-                        </li>
-                    </ul>
+
+                <div class="card">
+                    <div class="col-md-5 col-lg-4 order-md-last">
+                        <h4 class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="text-primary">Results</span>
+                        </h4>
+                        <ul class="list-group mb-3">
+                            <li class="list-group-item d-flex justify-content-between lh-sm">
+                                <div>
+                                    <h6 class="my-0">Intrinsik</h6>
+                                    <small class="text-body-secondary">Nilai intrinsik</small>
+                                </div>
+                                <span class="text-body-secondary"></span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between lh-sm">
+                                <div>
+                                    <h6 class="my-0">Harga Saham Saat Ini</h6>
+                                    <small class="text-body-secondary">Harga saham saat ini</small>
+                                </div>
+                                <span class="text-body-secondary"></span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between lh-sm">
+                                <div>
+                                    <h6 class="my-0">Margin of Safety</h6>
+                                    <small class="text-body-secondary">Margin of safety</small>
+                                </div>
+                                <span class="text-body-secondary"></span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
 
 
 
                 <div class="col-md-7 col-lg-8">
 
-                    <h4 class="mb-3">Value Margin of Safety (MoS)</h4>
-                    <div class="row gy-3">
-                        <div class="col-md-6">
-                            <label for="eps" class="form-label">EPS</label>
-                            <input type="text" class="form-control" id="eps">
-                        </div>
+                    <div class="card">
+                        <h4 class="mb-3">Value Margin of Safety (MoS)</h4>
+                        <div class="row gy-3">
+                            <div class="col-md-6">
+                                <label for="eps" class="form-label">EPS</label>
+                                <input type="text" class="form-control" id="eps">
+                            </div>
 
-                        <div class="col-md-3">
-                            <label for="growth_rate" class="form-label">Growth rate prjection</label>
-                            <input type="text" class="form-control" id="growth_rate">
-                        </div>
+                            <div class="col-md-3">
+                                <label for="growth_rate" class="form-label">Growth rate prjection</label>
+                                <input type="text" class="form-control" id="growth_rate">
+                            </div>
 
-                        <div class="col-md-6">
-                            <label for="current_stock_price" class="form-label">PE of company w/ no growth</label>
-                            <input type="text" class="form-control" id="current_stock_price">
+                            <div class="col-md-6">
+                                <label for="current_stock_price" class="form-label">PE of company w/ no growth</label>
+                                <input type="text" class="form-control" id="current_stock_price">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -77,7 +82,7 @@
 
     <div class="card">
         <div class="card-header">
-            Custom  Calculator
+            Custom Calculator
         </div>
         <div class="card-body">
             <div class="row g-5">

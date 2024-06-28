@@ -26,21 +26,21 @@
                                 <h6 class="my-0">Intrinsik</h6>
                                 <small class="text-body-secondary">Nilai intrinsik</small>
                             </div>
-                            <span class="text-body-secondary">{{ $results['intrinsik'] }}</span>
+                            <span class="text-body-secondary"></span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between lh-sm">
                             <div>
                                 <h6 class="my-0">Harga Saham Saat Ini</h6>
                                 <small class="text-body-secondary">Harga saham saat ini</small>
                             </div>
-                            <span class="text-body-secondary">{{ $results['harga'] }}</span>
+                            <span class="text-body-secondary"></span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between lh-sm">
                             <div>
                                 <h6 class="my-0">Margin of Safety</h6>
                                 <small class="text-body-secondary">Margin of safety</small>
                             </div>
-                            <span class="text-body-secondary">{{ $results['mos'] }}</span>
+                            <span class="text-body-secondary"></span>
                         </li>
                     </ul>
                 </div>

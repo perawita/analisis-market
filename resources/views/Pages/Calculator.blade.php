@@ -17,8 +17,7 @@
         <div class="card-body">
             <div class="row g-5">
 
-                <div class="card">
-                    <div class="col-md-5 col-lg-4 order-md-last">
+                    <div class="card col-md-5 col-lg-4 order-md-last">
                         <h4 class="d-flex justify-content-between align-items-center mb-3">
                             <span class="text-primary">Results</span>
                         </h4>
@@ -46,13 +45,11 @@
                             </li>
                         </ul>
                     </div>
-                </div>
 
 
 
-                <div class="col-md-7 col-lg-8">
+                <div class="card col-md-7 col-lg-8">
 
-                    <div class="card">
                         <h4 class="mb-3">Value Margin of Safety (MoS)</h4>
                         <div class="row gy-3">
                             <div class="col-md-6">
@@ -69,7 +66,7 @@
                                 <label for="current_stock_price" class="form-label">PE of company w/ no growth</label>
                                 <input type="text" class="form-control" id="current_stock_price">
                             </div>
-                        </div>
+
                     </div>
                 </div>
             </div>

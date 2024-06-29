@@ -4,6 +4,7 @@ namespace App\Service;
 
 use Scheb\YahooFinanceApi\ApiClient;
 use Scheb\YahooFinanceApi\ApiClientFactory;
+use DateTime;
 
 
 class YahooFinanceApiService

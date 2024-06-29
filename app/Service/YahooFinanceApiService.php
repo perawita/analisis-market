@@ -10,7 +10,7 @@ class YahooFinanceApiService
 {
     private $client = null;
 
-    private function __construct() {
+    public function __construct() {
         $this->client = ApiClientFactory::createApiClient();
     }
 

@@ -3,9 +3,8 @@
 namespace App\Service;
 
 use Symfony\Component\HttpClient\HttpClient;
-use Symfony\Component\DomCrawler\Crawler;
 
-class CalculatorService extends CrawlerService
+class CalculatorService extends YahooFinanceApiService
 {
     /**
      * Handles the calculator result request.
@@ -16,7 +15,7 @@ class CalculatorService extends CrawlerService
     public function index(Request $request)
     {
         $stock_symbol = $request->input('stock_symbol');
-        $current_stock_price = $request->input('current_stock_price');
+        $current_stock_price = $this->getQuote($stock_symbol)['regularMarketPrice'];
 
         if ($stock_symbol && $current_stock_price) {
             $request_results = $this->calculateValuation($stock_symbol, $current_stock_price);
@@ -94,17 +93,13 @@ class CalculatorService extends CrawlerService
     public function calculateValuation(string $stock_symbol, float $current_stock_price): array
     {
         // Dummy data representing EPS for different stocks
-        $eps_data = [
-            'AAPL' => 1.9, // Example EPS for Apple
-            'MSFT' => 2.4, // Example EPS for Microsoft
-            // Add more stocks as needed
-        ];
+        $eps_data = $this->getQuote($stock_symbol)['epsTrailingTwelveMonths'];
 
-        if (!isset($eps_data[$stock_symbol])) {
+        if (!isset($eps_data)) {
             throw new Exception('Stock symbol not found.');
         }
 
-        $eps = $eps_data[$stock_symbol];
+        $eps = $eps_data;
         $growth_rate = $this->getAverageGrowthRate($stock_symbol);
 
         return $this->calculate($eps, $growth_rate, $current_stock_price);

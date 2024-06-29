@@ -14,14 +14,29 @@ class YahooFinanceApiService
         $this->client = ApiClientFactory::createApiClient();
     }
 
-    public function splitData($symbol)
+    public function getQuote($symbol)
     {
         if (is_null($symbol) || empty($symbol)) {
             throw new \InvalidArgumentException("Symbol cannot be null or empty");
         }
 
-        $get_split = $this->client->getQuote('AAPL');
+        $get_split = $this->client->getQuote($symbol);
         return $get_split;
     }
-}
 
+    public function historicalData($symbol)
+    {
+        if (is_null($symbol) || empty($symbol)) {
+            throw new \InvalidArgumentException("Symbol cannot be null or empty");
+        }
+
+         $get_histori = $this->client->getHistoricalData(
+            $symbol, 
+            ApiClient::INTERVAL_1_DAY, 
+            new DateTime('-14 days'), 
+            new DateTime('today')
+        );
+
+        return $get_histori;
+    }
+}

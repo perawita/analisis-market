@@ -5,10 +5,9 @@ namespace App\Service;
 use Scheb\YahooFinanceApi\ApiClient;
 use Scheb\YahooFinanceApi\ApiClientFactory;
 
-
 class YahooFinanceApiService
 {
-    private $client = null;
+    private $client;
 
     public function __construct() {
         $this->client = ApiClientFactory::createApiClient();
@@ -16,8 +15,11 @@ class YahooFinanceApiService
 
     public function splitData($symbol)
     {
-        $get_split = $this->client->search('Apple');
-        return $get_split;
+        if (is_null($symbol) || empty($symbol)) {
+            throw new \InvalidArgumentException("Symbol cannot be null or empty");
+        }
+        
+        $splitData = $this->client->search($symbol);
+        return $splitData;
     }
 }
-

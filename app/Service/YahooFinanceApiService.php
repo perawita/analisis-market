@@ -16,11 +16,7 @@ class YahooFinanceApiService
 
     public function splitData($symbol)
     {
-        $get_split = $this->client->getHistoricalSplitData(
-            $symbol,
-            new \DateTime("-5 years"),
-            new \DateTime("today")
-        );
+        $get_split = $this->client->search('Apple');
         return $get_split;
     }
 }

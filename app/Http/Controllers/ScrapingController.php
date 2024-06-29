@@ -1116,6 +1116,7 @@ class ScrapingController extends Controller
     public function get_mos_values($symbol)
     {
         $yahoo_service = new YahooFinanceApiService();
-        return dd($yahoo_service->splitData($symbol));
+        $split = $yahoo_service->splitData($symbol);
+        return dd($split);
     }
 }

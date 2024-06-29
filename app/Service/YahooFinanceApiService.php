@@ -14,13 +14,14 @@ class YahooFinanceApiService
         $this->client = ApiClientFactory::createApiClient();
     }
 
-    public function splitData(string $symbol)
+    public function splitData($symbol)
     {
-        return $this->client->getHistoricalSplitData(
+        $get_split = $this->client->getHistoricalSplitData(
             $symbol,
             new \DateTime("-5 years"),
             new \DateTime("today")
         );
+        return $get_split;
     }
 }
 

@@ -34,7 +34,7 @@ class YahooFinanceApiService
          $get_histori = $this->client->getHistoricalData(
             $symbol, 
             ApiClient::INTERVAL_1_DAY, 
-            new DateTime('-14 days'), 
+            new \DateTime("-5 years"),
             new DateTime('today')
         );
 

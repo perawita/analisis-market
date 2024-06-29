@@ -19,12 +19,8 @@ class YahooFinanceApiService
         if (is_null($symbol) || empty($symbol)) {
             throw new \InvalidArgumentException("Symbol cannot be null or empty");
         }
-        
-        $get_split = $this->client->getHistoricalSplitData(
-            $symbol,
-            new \DateTime("-5 years"),
-            new \DateTime("today")
-        );
+
+        $get_split = $this->client->getQuote('AAPL');
         return $get_split;
     }
 }

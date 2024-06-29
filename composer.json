@@ -8,12 +8,13 @@
     ],
     "license": "MIT",
     "require": {
-        "fabpot/goutte": "^4.0",
         "php": "^8.1",
+        "fabpot/goutte": "^4.0",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
+        "scheb/yahoo-finance-api": "^4.10",
         "symfony/panther": "^2.1"
     },
     "require-dev": {

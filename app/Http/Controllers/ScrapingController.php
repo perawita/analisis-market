@@ -184,6 +184,14 @@ class ScrapingController extends Controller
         }
     }
 
+    public function get_mos_values(Request $request)
+    {
+        $symbol = $request->input('cari-nama');
+        $yahoo_service = new YahooFinanceApiService();
+        $split = $yahoo_service->splitData($symbol);
+        return dd($split);
+    }
+
     public function _HandlePencarian(Request $request)
     {
         try {
@@ -1111,12 +1119,5 @@ class ScrapingController extends Controller
                 'error' => $e->getMessage(),
             ]);
         }
-    }
-
-    public function get_mos_values($symbol)
-    {
-        $yahoo_service = new YahooFinanceApiService();
-        $split = $yahoo_service->splitData($symbol);
-        return dd($split);
     }
 }

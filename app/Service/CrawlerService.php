@@ -27,4 +27,5 @@ class CrawlerService
             throw new \Exception("Error: Received status code $statusCode");
         }
     }
+    
 }

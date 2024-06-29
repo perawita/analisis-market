@@ -49,4 +49,6 @@ class CalculatorController extends Controller
             'mos' => (string)$margin_of_safety . '%',
         ];
     }
+
+    
 }

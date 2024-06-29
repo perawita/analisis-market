@@ -8,6 +8,8 @@ use Symfony\Component\DomCrawler\Crawler;
 use Illuminate\Support\Arr;
 
 use App\Service\CrawlerService;
+use App\Service\CalculatorService;
+use App\Service\YahooFinanceApiService;
 
 class ScrapingController extends Controller
 {
@@ -588,7 +590,6 @@ class ScrapingController extends Controller
         }
     }
 
-
     public function components($symbol)
     {
         try {
@@ -1110,5 +1111,11 @@ class ScrapingController extends Controller
                 'error' => $e->getMessage(),
             ]);
         }
+    }
+
+    public function get_mos_values($symbol)
+    {
+        $yahoo_service = new YahooFinanceApiService();
+        return dd($yahoo_service->splitData($symbol));
     }
 }

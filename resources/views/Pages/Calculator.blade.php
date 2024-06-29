@@ -4,7 +4,7 @@
         <div class="card-body">
             <h5 class="text-center">Dapatkan nilai intrinsik sebuah saham serta Margin of Safety (MoS) sebuah saham</h5>
             <p class="text-center">Menghitung nilai intrinsik sebuah saham serta Margin of Safety (MoS), dengan menginput symbol nya secara langsung</p>
-            <form method="GET" action="{{ route('cari-data') }}" <div class="input-group mb-3">
+            <form method="GET" action="{{ route('Calculator-result') }}" <div class="input-group mb-3">
                 @csrf
                 <input type="search" class="form-control" name="cari-nama" id="cari-nama" placeholder="Search for Symbols" aria-label="Search">
                 <button class="btn btn-outline-secondary" type="Submit">Search</button>

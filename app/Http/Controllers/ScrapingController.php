@@ -10,6 +10,7 @@ use Illuminate\Support\Arr;
 use App\Service\CrawlerService;
 use App\Service\CalculatorService;
 use App\Service\YahooFinanceApiService;
+use App\Service\AlphaVantageService;
 
 class ScrapingController extends Controller
 {
@@ -189,7 +190,23 @@ class ScrapingController extends Controller
         $symbol = $request->input('cari-nama');
         $yahoo_service = new YahooFinanceApiService();
         $split = $yahoo_service->optionChain($symbol);
-        return dd($split);
+
+        
+        $alpha_vantage_service = new AlphaVantageService();
+        $get_eps = $alpha_vantage_service->getEPS($symbol);
+
+        if (isset($get_eps['annualReports'])) {
+            $epsData = [];
+            foreach ($get_eps['annualReports'] as $report) {
+                $epsData[] = [
+                    'fiscalDateEnding' => $report['fiscalDateEnding'],
+                    'eps' => $report['eps'],
+                ];
+            }
+            return response()->json($epsData);
+        }
+
+        return response()->json(['message' => 'No data found'], 404);
     }
 
     public function _HandlePencarian(Request $request)

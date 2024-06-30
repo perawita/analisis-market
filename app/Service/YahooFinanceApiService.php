@@ -40,14 +40,4 @@ class YahooFinanceApiService
 
         return $get_histori;
     }
-
-    public function optionChain($symbol)
-    {
-        if (is_null($symbol) || empty($symbol)) {
-            throw new \InvalidArgumentException("Symbol cannot be null or empty");
-        }
-
-        $get_option_chain = $this->client->getOptionChain($symbol);
-        return $get_option_chain;
-    }
 }

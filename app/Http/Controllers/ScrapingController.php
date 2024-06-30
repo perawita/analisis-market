@@ -188,7 +188,7 @@ class ScrapingController extends Controller
     public function get_mos_values(Request $request)
     {
         $symbol = $request->input('cari-nama');
-        $yahoo_service = new YahooFinanceApiService();
+        // $yahoo_service = new YahooFinanceApiService();
         // $split = $yahoo_service->optionChain($symbol);
 
         

@@ -41,18 +41,13 @@ class YahooFinanceApiService
         return $get_histori;
     }
 
-    public function splitData($symbol)
+    public function optionChain($symbol)
     {
         if (is_null($symbol) || empty($symbol)) {
             throw new \InvalidArgumentException("Symbol cannot be null or empty");
         }
 
-        $get_histori_split = $this->client->getHistoricalSplitData(
-            $symbol,
-            ApiClient::INTERVAL_1_DAY, 
-            new \DateTime("-5 years"),
-            new \DateTime("today")
-        );
-        return $get_histori_split;
+        $get_option_chain = $this->client->getOptionChain($symbol);
+        return $get_option_chain;
     }
 }

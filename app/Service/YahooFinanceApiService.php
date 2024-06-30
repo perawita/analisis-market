@@ -49,6 +49,7 @@ class YahooFinanceApiService
 
         $get_histori_split = $this->client->getHistoricalSplitData(
             $symbol,
+            ApiClient::INTERVAL_1_DAY, 
             new \DateTime("-5 years"),
             new \DateTime("today")
         );

@@ -189,7 +189,8 @@ class ScrapingController extends Controller
     {
         $symbol = $request->input('cari-nama');
         $yahoo_service = new YahooFinanceApiService();
-        $split = $yahoo_service->getQuote($symbol);
+        $split = $yahoo_service->getQuote($symbol); //perlu getQuote
+        $historica = $yahoo_service->historicalData($symbol); //perlu historicalData
 
         
         // $alpha_vantage_service = new AlphaVantageService();
@@ -211,7 +212,7 @@ class ScrapingController extends Controller
         //     );
         // }
 
-        return dd($split);
+        return dd($historica);
         // if (isset($get_eps['annualReports'])) {
         //     $epsData = [];
         //     foreach ($get_eps['annualReports'] as $report) {

@@ -202,7 +202,7 @@ class ScrapingController extends Controller
         // foreach ($get_eps as $item) {
         //     $eps[] = $item['annualReports']['netIncome'] / $get_shares_outstanding['SharesOutstanding'];
         // }
-        return dd($get_eps['annualReports']['netIncome']);
+        return dd($get_eps['annualReports']);
 
         // return dd($get_shares_outstanding['SharesOutstanding']);
         // if (isset($get_eps['annualReports'])) {

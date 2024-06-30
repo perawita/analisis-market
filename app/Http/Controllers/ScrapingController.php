@@ -189,7 +189,7 @@ class ScrapingController extends Controller
     {
         $symbol = $request->input('cari-nama');
         $yahoo_service = new YahooFinanceApiService();
-        $split = $yahoo_service->optionChain($symbol);
+        // $split = $yahoo_service->optionChain($symbol);
 
         
         $alpha_vantage_service = new AlphaVantageService();

@@ -194,26 +194,17 @@ class ScrapingController extends Controller
 
         
         $alpha_vantage_service = new AlphaVantageService();
-        // $get_eps = $alpha_vantage_service->getEPS($symbol);
+        $get_eps = $alpha_vantage_service->getEPS($symbol);
         $get_shares_outstanding = $alpha_vantage_service->getSharesOutstanding($symbol);
 
-        // $currentYear = now()->year;
+        $currentYear = now()->year;
 
-        // foreach ($data as $item) {
-        //     $eps = $item['netIncome'] / $sharesOutstanding;
-        //     EpsReport::updateOrCreate(
-        //         [
-        //             'symbol' => $symbol,
-        //             'fiscal_date_ending' => $item['fiscalDateEnding'],
-        //         ],
-        //         [
-        //             'reported_currency' => $item['reportedCurrency'],
-        //             'eps' => $eps,
-        //         ]
-        //     );
-        // }
+        foreach ($get_eps as $item) {
+            $eps = $item['netIncome'] / $get_shares_outstanding['SharesOutstanding'];
+            return response()->json('eps' => $eps);
+        }
 
-        return dd($get_shares_outstanding['SharesOutstanding']);
+        // return dd($get_shares_outstanding['SharesOutstanding']);
         // if (isset($get_eps['annualReports'])) {
         //     $epsData = [];
         //     foreach ($get_eps['annualReports'] as $report) {

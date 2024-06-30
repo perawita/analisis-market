@@ -40,4 +40,18 @@ class YahooFinanceApiService
 
         return $get_histori;
     }
+
+    public function splitData($symbol)
+    {
+        if (is_null($symbol) || empty($symbol)) {
+            throw new \InvalidArgumentException("Symbol cannot be null or empty");
+        }
+
+        $get_histori_split = $this->client->getHistoricalSplitData(
+            $symbol,
+            new \DateTime("-5 years"),
+            new \DateTime("today")
+        );
+        return $get_histori_split;
+    }
 }

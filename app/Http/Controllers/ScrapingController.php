@@ -200,9 +200,9 @@ class ScrapingController extends Controller
         $currentYear = now()->year;
 
         foreach ($get_eps as $item) {
-            $eps = $item['netIncome'] / $get_shares_outstanding['SharesOutstanding'];
-            return response()->json('eps' $eps);
+            $eps[] = $item['netIncome'] / $get_shares_outstanding['SharesOutstanding'];
         }
+        return response()->json('eps' $eps);
 
         // return dd($get_shares_outstanding['SharesOutstanding']);
         // if (isset($get_eps['annualReports'])) {

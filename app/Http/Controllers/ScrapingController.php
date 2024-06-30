@@ -188,13 +188,30 @@ class ScrapingController extends Controller
     public function get_mos_values(Request $request)
     {
         $symbol = $request->input('cari-nama');
-        // $yahoo_service = new YahooFinanceApiService();
-        // $split = $yahoo_service->optionChain($symbol);
+        $yahoo_service = new YahooFinanceApiService();
+        $split = $yahoo_service->getQuote($symbol);
 
         
-        $alpha_vantage_service = new AlphaVantageService();
-        $get_eps = $alpha_vantage_service->getEPS($symbol);
-        return dd($get_eps);
+        // $alpha_vantage_service = new AlphaVantageService();
+        // $get_eps = $alpha_vantage_service->getEPS($symbol);
+
+        // $currentYear = now()->year;
+
+        // foreach ($data as $item) {
+        //     $eps = $item['netIncome'] / $sharesOutstanding;
+        //     EpsReport::updateOrCreate(
+        //         [
+        //             'symbol' => $symbol,
+        //             'fiscal_date_ending' => $item['fiscalDateEnding'],
+        //         ],
+        //         [
+        //             'reported_currency' => $item['reportedCurrency'],
+        //             'eps' => $eps,
+        //         ]
+        //     );
+        // }
+
+        return dd($split);
         // if (isset($get_eps['annualReports'])) {
         //     $epsData = [];
         //     foreach ($get_eps['annualReports'] as $report) {

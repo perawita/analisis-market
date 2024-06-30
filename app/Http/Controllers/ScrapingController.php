@@ -188,13 +188,14 @@ class ScrapingController extends Controller
     public function get_mos_values(Request $request)
     {
         $symbol = $request->input('cari-nama');
-        $yahoo_service = new YahooFinanceApiService();
-        $split = $yahoo_service->getQuote($symbol); //perlu getQuote
-        $historica = $yahoo_service->historicalData($symbol); //perlu historicalData
+        // $yahoo_service = new YahooFinanceApiService();
+        // $split = $yahoo_service->getQuote($symbol); //perlu getQuote
+        // $historica = $yahoo_service->historicalData($symbol); //perlu historicalData
 
         
-        // $alpha_vantage_service = new AlphaVantageService();
-        // $get_eps = $alpha_vantage_service->getEPS($symbol);
+        $alpha_vantage_service = new AlphaVantageService();
+        $get_eps = $alpha_vantage_service->getEPS($symbol);
+        $get_shares_outstanding = $alpha_vantage_service->getSharesOutstanding($symbol);
 
         // $currentYear = now()->year;
 
@@ -212,7 +213,7 @@ class ScrapingController extends Controller
         //     );
         // }
 
-        return dd($historica);
+        return dd($get_shares_outstanding);
         // if (isset($get_eps['annualReports'])) {
         //     $epsData = [];
         //     foreach ($get_eps['annualReports'] as $report) {

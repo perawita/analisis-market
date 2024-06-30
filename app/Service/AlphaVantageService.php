@@ -24,4 +24,23 @@ class AlphaVantageService
 
         return null;
     }
+
+    public function getSharesOutstanding($symbol)
+    {
+        $response = $this->client->get("https://www.alphavantage.co/query", [
+            'query' => [
+                'function' => 'OVERVIEW',
+                'symbol' => $symbol,
+                'apikey' => $this->apiKey,
+            ]
+        ]);
+
+        $data = json_decode($response->getBody()->getContents(), true);
+
+        if (isset($data['SharesOutstanding'])) {
+            return $data['SharesOutstanding'];
+        }
+
+        return null;
+    }
 }

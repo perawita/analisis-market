@@ -194,7 +194,7 @@ class ScrapingController extends Controller
 
         
         $alpha_vantage_service = new AlphaVantageService();
-        $get_eps = $alpha_vantage_service->getEPS($symbol);
+        // $get_eps = $alpha_vantage_service->getEPS($symbol);
         $get_shares_outstanding = $alpha_vantage_service->getSharesOutstanding($symbol);
 
         // $currentYear = now()->year;

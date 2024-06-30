@@ -185,47 +185,6 @@ class ScrapingController extends Controller
         }
     }
 
-    public function get_mos_values(Request $request)
-    {
-        $symbol = $request->input('cari-nama');
-        // $yahoo_service = new YahooFinanceApiService();
-        // $split = $yahoo_service->getQuote($symbol); //perlu getQuote
-        // $historica = $yahoo_service->historicalData($symbol); //perlu historicalData
-
-        
-        $alpha_vantage_service = new AlphaVantageService();
-        $get_eps = $alpha_vantage_service->getEPS($symbol);
-        $get_shares_outstanding = $alpha_vantage_service->getSharesOutstanding($symbol);
-
-        $sharesOutstanding = $get_shares_outstanding['SharesOutstanding'];
-        // $eps = []; 
-        
-        foreach ($get_eps as $item) {
-            if (isset($item['annualReports']) && is_array($item['annualReports'])) {
-                foreach ($item['annualReports'] as $report) {
-                    $eps[] = $report['netIncome'] / $sharesOutstanding;
-                }
-            }
-        }
-        
-        return dd($eps);
-        
-
-        // return dd($get_shares_outstanding['SharesOutstanding']);
-        // if (isset($get_eps['annualReports'])) {
-        //     $epsData = [];
-        //     foreach ($get_eps['annualReports'] as $report) {
-        //         $epsData[] = [
-        //             'fiscalDateEnding' => $report['fiscalDateEnding'],
-        //             'eps' => $report['eps'],
-        //         ];
-        //     }
-        //     return response()->json($epsData);
-        // }
-
-        // return response()->json(['message' => 'No data found'], 404);
-    }
-
     public function _HandlePencarian(Request $request)
     {
         try {

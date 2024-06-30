@@ -2,30 +2,28 @@
 
 namespace App\Service;
 
-use Symfony\Component\HttpClient\HttpClient;
+use Exception;
 
 class CalculatorService extends YahooFinanceApiService
 {
     /**
      * Handles the calculator result request.
      *
-     * @param Request|null $request
-     * @return \Illuminate\View\View
+     * @param string $symbol
+     * @return array|null
      */
-    public function index(Request $request)
+    public function index($symbol)
     {
-        $stock_symbol = $request->input('stock_symbol');
-        $current_stock_price = $this->getQuote($stock_symbol)['regularMarketPrice'];
+        $stock_symbol = $symbol;
+        $regular_market_price = $this->getQuote($stock_symbol);
+        $current_stock_price = $regular_market_price->getRegularMarketPrice() ?? 0.00;
+
 
         if ($stock_symbol && $current_stock_price) {
             $request_results = $this->calculateValuation($stock_symbol, $current_stock_price);
-            return view('Pages.Calculator', [
-                'results' => $request_results,
-            ]);
+            return $request_results;
         } else {
-            return view('Pages.Calculator', [
-                'results' => null
-            ]);
+            return null;
         }
     }
 
@@ -35,17 +33,20 @@ class CalculatorService extends YahooFinanceApiService
      * @param float $eps
      * @param float $growth_rate
      * @param float $current_stock_price
-     * @return array An array containing the intrinsic value, current stock price, and margin of safety.
+     * @return array
      */
-    private function calculate($eps, $growth_rate, $current_stock_price): array
+    private function calculate(float $eps, float $growth_rate, float $current_stock_price): array
     {
-        $intrinsic_value = $eps * (8.5 + 2 * $growth_rate);
+        $intrinsic_value = ($eps * (8.5 + 2 * $growth_rate) / 73.22);
         $margin_of_safety = (($intrinsic_value - $current_stock_price) / $intrinsic_value) * 100;
 
-        return [  
+        return [
             'intrinsik' => $intrinsic_value,
             'harga' => $current_stock_price,
-            'mos' => (string)$margin_of_safety . '%',
+            'mos' => number_format($margin_of_safety, 2) . '%', // Formatting margin of safety
+            'eps' => $eps,
+            'growth_rate' => $growth_rate,
+            'stock_symbol' => ''
         ];
     }
 
@@ -58,25 +59,21 @@ class CalculatorService extends YahooFinanceApiService
      */
     private function getAverageGrowthRate(string $stock_symbol, string $type = 'YoY'): float
     {
-        // Dummy data representing fetched data for EPS over last 5 periods
-        $eps_data = [
-            'AAPL' => [1.5, 1.6, 1.7, 1.8, 1.9], // Example data for Apple
-            'MSFT' => [2.0, 2.1, 2.2, 2.3, 2.4], // Example data for Microsoft
-            // Add more stocks as needed
-        ];
-
-        if (!isset($eps_data[$stock_symbol])) {
-            throw new Exception('Stock symbol not found.');
+        // Simulated function to fetch EPS data, replace with actual implementation
+        $eps_values = $this->eps($stock_symbol);
+        $valid_eps_values = [];
+        foreach ($eps_values as $eps_value) {
+            if ($eps_value !== "--") {
+                $valid_eps_values[] = $eps_value;
+            }
         }
 
-        $eps_values = $eps_data[$stock_symbol];
         $growth_rates = [];
-
-        for ($i = 1; $i < count($eps_values); $i++) {
+        for ($i = 1; $i < count($valid_eps_values); $i++) {
             if ($type === 'QoQ') {
-                $growth_rates[] = (($eps_values[$i] - $eps_values[$i - 1]) / $eps_values[$i - 1]) * 100;
+                $growth_rates[] = (($valid_eps_values[$i] - $valid_eps_values[$i - 1]) / $valid_eps_values[$i - 1]) * 100;
             } else {
-                $growth_rates[] = (($eps_values[$i] - $eps_values[0]) / $eps_values[0]) * 100;
+                $growth_rates[] = (($valid_eps_values[$i] - $valid_eps_values[0]) / $valid_eps_values[0]) * 100;
             }
         }
 
@@ -92,14 +89,10 @@ class CalculatorService extends YahooFinanceApiService
      */
     public function calculateValuation(string $stock_symbol, float $current_stock_price): array
     {
-        // Dummy data representing EPS for different stocks
-        $eps_data = $this->getQuote($stock_symbol)['epsTrailingTwelveMonths'];
-
-        if (!isset($eps_data)) {
-            throw new Exception('Stock symbol not found.');
-        }
-
-        $eps = $eps_data;
+        // Dummy EPS data, replace with actual implementation
+        $eps_market = $this->getQuote($stock_symbol);
+        $eps_data = $eps_market->getEpsTrailingTwelveMonths();
+        $eps = $eps_data; // Dummy EPS value, replace with actual fetched EPS
         $growth_rate = $this->getAverageGrowthRate($stock_symbol);
 
         return $this->calculate($eps, $growth_rate, $current_stock_price);

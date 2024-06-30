@@ -20,33 +20,31 @@
                         @endforeach
                     </ul>
                 @endif
-
-                <table class="table table-bordered border-primary">
-                    <thead>
-                        <tr>
-                            @foreach ($response as $row_labels)
-                                @foreach ($row_labels['labels'] as $label)
-                                    <th class="border">{{ $label }}</th>
-                                @endforeach
-                            @endforeach
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php
-                            $num_rows = count($response[0]['values']);
-                        @endphp
-                        @for ($i = 0; $i < $num_rows; $i++)
-                            <tr>
-                                @foreach ($response as $row_labels)
-                                    @foreach ($row_labels['values'][$i] as $value)
-                                        <td class="border">{{ $value }}</td>
-                                    @endforeach
-                                @endforeach
-                            </tr>
-                        @endfor
-                    </tbody>
-                </table>
-
+<table class="table table-bordered border-primary">
+    <thead>
+        <tr>
+            @foreach ($response as $row_labels)
+                @foreach ($row_labels['labels'] as $label)
+                    <th class="border">{{ $label }}</th>
+                @endforeach
+            @endforeach
+        </tr>
+    </thead>
+    <tbody>
+        @php
+            $num_rows = count($response[0]['values']);
+        @endphp
+        @for ($i = 0; $i < $num_rows; $i++)
+            <tr>
+                @foreach ($response as $row)
+                    @foreach ($row['values'][$i] as $value)
+                        <td class="border">{{ $value }}</td>
+                    @endforeach
+                @endforeach
+            </tr>
+        @endfor
+    </tbody>
+</table>
 
 
             </div>

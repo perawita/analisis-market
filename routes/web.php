@@ -18,8 +18,7 @@ use App\Http\Controllers\CalculatorController;
 Route::get('/', [ScrapingController::class, 'index'])->name('Index');
 
 Route::get('/Calculator', [CalculatorController::class, 'index'])->name('Calculator');
-Route::get('/Calculator-auto', [ScrapingController::class, 'get_mos_values'])->name('Calculator-auto');
-Route::post('/Calculator-result', [CalculatorController::class, 'index'])->name('Calculator-result');
+Route::get('/Calculator-result', [CalculatorController::class, 'index'])->name('Calculator-result');
 
 Route::get('/Search', [ScrapingController::class, '_HandlePencarian'])->name('cari-data');
 

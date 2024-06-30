@@ -213,7 +213,7 @@ class ScrapingController extends Controller
         //     );
         // }
 
-        return dd($get_shares_outstanding);
+        return dd($get_shares_outstanding['SharesOutstanding']);
         // if (isset($get_eps['annualReports'])) {
         //     $epsData = [];
         //     foreach ($get_eps['annualReports'] as $report) {

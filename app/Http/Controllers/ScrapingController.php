@@ -194,19 +194,19 @@ class ScrapingController extends Controller
         
         $alpha_vantage_service = new AlphaVantageService();
         $get_eps = $alpha_vantage_service->getEPS($symbol);
+        return dd($get_eps);
+        // if (isset($get_eps['annualReports'])) {
+        //     $epsData = [];
+        //     foreach ($get_eps['annualReports'] as $report) {
+        //         $epsData[] = [
+        //             'fiscalDateEnding' => $report['fiscalDateEnding'],
+        //             'eps' => $report['eps'],
+        //         ];
+        //     }
+        //     return response()->json($epsData);
+        // }
 
-        if (isset($get_eps['annualReports'])) {
-            $epsData = [];
-            foreach ($get_eps['annualReports'] as $report) {
-                $epsData[] = [
-                    'fiscalDateEnding' => $report['fiscalDateEnding'],
-                    'eps' => $report['eps'],
-                ];
-            }
-            return response()->json($epsData);
-        }
-
-        return response()->json(['message' => 'No data found'], 404);
+        // return response()->json(['message' => 'No data found'], 404);
     }
 
     public function _HandlePencarian(Request $request)

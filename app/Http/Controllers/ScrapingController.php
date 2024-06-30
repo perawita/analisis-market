@@ -197,15 +197,15 @@ class ScrapingController extends Controller
         $get_eps = $alpha_vantage_service->getEPS($symbol);
         $get_shares_outstanding = $alpha_vantage_service->getSharesOutstanding($symbol);
 
-        $currentYear = now()->year;
-        $eps = []; 
-        foreach ($get_eps as $item) {
-            for($i = 0; $i < $item['annualReports'].length; $i++)
-            {
-                $eps[] = $item['annualReports'][$i]['netIncome'] / $get_shares_outstanding['SharesOutstanding'];
-            }
-         }
-        return dd($eps);
+        // $currentYear = now()->year;
+        // $eps = []; 
+        // foreach ($get_eps as $item) {
+        //     for($i = 0; $i < $item['annualReports'].length; $i++)
+        //     {
+        //         $eps[] = $item['annualReports'][$i]['netIncome'] / $get_shares_outstanding['SharesOutstanding'];
+        //     }
+        //  }
+        return dd($get_eps);
 
         // return dd($get_shares_outstanding['SharesOutstanding']);
         // if (isset($get_eps['annualReports'])) {

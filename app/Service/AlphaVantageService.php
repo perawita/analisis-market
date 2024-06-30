@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Http;
 
 class AlphaVantageService
 {
-    protected $apiKey;
+    private $apiKey;
 
     public function __construct()
     {

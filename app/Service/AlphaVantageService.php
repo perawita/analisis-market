@@ -27,19 +27,13 @@ class AlphaVantageService
 
     public function getSharesOutstanding($symbol)
     {
-        $response = $this->client->get("https://www.alphavantage.co/query", [
-            'query' => [
-                'function' => 'OVERVIEW',
-                'symbol' => $symbol,
-                'apikey' => $this->apiKey,
-            ]
-        ]);
+        $url = "https://www.alphavantage.co/query?function=OVERVIEW&symbol=$symbol&apikey={$this->apiKey}";
+        $response = Http::get($url);
 
-        $data = json_decode($response->getBody()->getContents(), true);
-
-        if (isset($data['SharesOutstanding'])) {
-            return $data['SharesOutstanding'];
+        if ($response->successful()) {
+            return $response->json();
         }
+
 
         return null;
     }

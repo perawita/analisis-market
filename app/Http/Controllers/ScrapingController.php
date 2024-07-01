@@ -10,7 +10,6 @@ use Illuminate\Support\Arr;
 use App\Service\CrawlerService;
 use App\Service\CalculatorService;
 use App\Service\YahooFinanceApiService;
-use App\Service\AlphaVantageService;
 
 class ScrapingController extends Controller
 {
@@ -292,7 +291,7 @@ class ScrapingController extends Controller
                 });
 
                 $compare = $crawler->filter('div.scroll-carousel[data-testid="carousel-container"]')
-                    ->filter('section.card.small.svelte-1v51y3z.bdr.sticky[data-testid="card-container"]')->each(function ($node) {
+                    ->filter('section.card[data-testid="card-container"]')->each(function ($node) {
                         $ticker = $node->filter('span')->text();
                         $companyName = $node->filter('div')->text();
                         $symbol = $node->filter('a')->attr('aria-label');

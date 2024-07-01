@@ -784,6 +784,8 @@ class ScrapingController extends Controller
                     $navLink = array_filter($navLink);
                 }
 
+                return dd($response);
+
                 $profiles = $this->profiles($symbol);
 
                 return view('Pages.Financials', [

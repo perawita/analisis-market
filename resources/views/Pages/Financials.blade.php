@@ -36,7 +36,7 @@
                         @endphp
                         @for ($i = 0; $i < $num_rows; $i++) <tr>
                             @foreach ($response as $row)
-                            @foreach ($row['values'] as $value)
+                            @foreach ($row['values'][$i] as $value)
                             <td class="border">{{ $value }}</td>
                             @endforeach
                             @endforeach

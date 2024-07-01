@@ -23,10 +23,8 @@
                 <table class="table table-bordered border-primary">
                     <thead>
                         <tr>
-                            @foreach ($response as $row_labels)
-                                @foreach ($row_labels['labels'] as $label)
-                                    <th class="border">{{ $label }}</th>
-                                @endforeach
+                            @foreach ($response[0]['labels'] as $label)
+                            <th class="border">{{ $label }}</th>
                             @endforeach
                         </tr>
                     </thead>
@@ -35,15 +33,14 @@
                         $num_rows = count($response[0]['values']);
                         @endphp
                         @for ($i = 0; $i < $num_rows; $i++) <tr>
-                            @foreach ($response as $row)
-                            @foreach ($row['values'][$i] as $value)
+                            @foreach ($response[0]['values'][$i] as $value)
                             <td class="border">{{ $value }}</td>
-                            @endforeach
                             @endforeach
                             </tr>
                             @endfor
                     </tbody>
                 </table>
+
             </div>
         </div>
     </div>

@@ -52,7 +52,7 @@ class CalculatorService extends YahooFinanceApiService
         $past = (float)str_replace(',', '', $past);
 
 
-        return $growth_rate = (($present - $past) / $past) * 100;
+        return (($present - $past) / $past) * 100;
     }
 
     private function rasio_price_earning($symbol)

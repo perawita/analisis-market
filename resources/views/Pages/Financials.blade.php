@@ -24,9 +24,9 @@
                     <thead>
                         <tr>
                             @foreach ($response as $row_labels)
-                            @foreach ($row_labels['labels'] as $label)
-                            <th class="border">{{ $label }}</th>
-                            @endforeach
+                                @foreach ($row_labels['labels'] as $label)
+                                    <th class="border">{{ $label }}</th>
+                                @endforeach
                             @endforeach
                         </tr>
                     </thead>

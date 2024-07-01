@@ -12,39 +12,38 @@
                 </div>
 
                 @if ($navLink)
-                    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                        @foreach ($navLink as $item)
-                            <li>
-                                <a href="{{ $item['href'] }}" class="nav-link px-2 link-dark">{{ $item['text'] }}</a>
-                            </li>
-                        @endforeach
-                    </ul>
-                @endif
-<table class="table table-bordered border-primary">
-    <thead>
-        <tr>
-            @foreach ($response as $row_labels)
-                @foreach ($row_labels['labels'] as $label)
-                    <th class="border">{{ $label }}</th>
-                @endforeach
-            @endforeach
-        </tr>
-    </thead>
-    <tbody>
-        @php
-            $num_rows = count($response[0]['values']);
-        @endphp
-        @for ($i = 0; $i < $num_rows; $i++)
-            <tr>
-                @foreach ($response as $row)
-                    @foreach ($row['values'][$i] as $value)
-                        <td class="border">{{ $value }}</td>
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    @foreach ($navLink as $item)
+                    <li>
+                        <a href="{{ $item['href'] }}" class="nav-link px-2 link-dark">{{ $item['text'] }}</a>
+                    </li>
                     @endforeach
-                @endforeach
-            </tr>
-        @endfor
-    </tbody>
-</table>
+                </ul>
+                @endif
+                <table class="table table-bordered border-primary">
+                    <thead>
+                        <tr>
+                            @foreach ($response as $row_labels)
+                            @foreach ($row_labels['labels'] as $label)
+                            <th class="border">{{ $label }}</th>
+                            @endforeach
+                            @endforeach
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @php
+                        $num_rows = count($response[0]['values']);
+                        @endphp
+                        @for ($i = 0; $i < $num_rows; $i++) <tr>
+                            @foreach ($response as $row)
+                            @foreach ($row['values'][$i] as $value)
+                            <td class="border">{{ $value }}</td>
+                            @endforeach
+                            @endforeach
+                            </tr>
+                            @endfor
+                    </tbody>
+                </table>
 
 
             </div>

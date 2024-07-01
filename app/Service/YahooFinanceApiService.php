@@ -124,20 +124,34 @@ class YahooFinanceApiService extends CrawlerService
         });
 
         
-        $index = array_search("Operating Cash Flow", array_column($response[0]['values'], 0));
-
+        $desired_labels = ["Operating Cash Flow", "Cash Flows from Used in Operating Activities Direct"];
+        $index = false;
+        
+        // Cari indeks dari label yang diinginkan
+        foreach ($desired_labels as $label) {
+            $index = array_search($label, array_column($response[0]['values'], 0));
+            if ($index !== false) {
+                break;
+            }
+        }
+        
         // Jika ditemukan, ambil nilai "Operating Cash Flow"
         if ($index !== false) {
-            $operating_cash_flow = array_slice($response[0]['values'][$index], 1); 
+            $operating_cash_flow = array_slice($response[0]['values'][$index], 1);
             
+            $valid_cash_flow_values = [];
             foreach ($operating_cash_flow as $cash_flow) {
                 if ($cash_flow !== "--") {
                     $valid_cash_flow_values[] = $cash_flow;
                 }
             }
-
-            return $valid_cash_flow_values[1] ?? 0;
+        
+            // Ambil nilai ke-2 jika ada, jika tidak, kembalikan 0.00
+            return $valid_cash_flow_values[1] ?? 0.00;
         }
+        
+        return 0.00; // Kembalikan 0.00 jika label tidak ditemukan
+        
     }
 
     public function cash_flow_now($symbol)
@@ -169,20 +183,34 @@ class YahooFinanceApiService extends CrawlerService
         });
 
         
-        $index = array_search("Operating Cash Flow", array_column($response[0]['values'], 0));
-
+        $desired_labels = ["Operating Cash Flow", "Cash Flows from Used in Operating Activities Direct"];
+        $index = false;
+        
+        // Cari indeks dari label yang diinginkan
+        foreach ($desired_labels as $label) {
+            $index = array_search($label, array_column($response[0]['values'], 0));
+            if ($index !== false) {
+                break;
+            }
+        }
+        
         // Jika ditemukan, ambil nilai "Operating Cash Flow"
         if ($index !== false) {
-            $operating_cash_flow = array_slice($response[0]['values'][$index], 1); 
+            $operating_cash_flow = array_slice($response[0]['values'][$index], 1);
             
+            $valid_cash_flow_values = [];
             foreach ($operating_cash_flow as $cash_flow) {
                 if ($cash_flow !== "--") {
                     $valid_cash_flow_values[] = $cash_flow;
                 }
             }
-
-            return $valid_cash_flow_values[0] ?? 0;
+        
+            // Ambil nilai ke-2 jika ada, jika tidak, kembalikan 0.00
+            return $valid_cash_flow_values[0] ?? 0.00;
         }
+        
+        return 0.00; // Kembalikan 0.00 jika label tidak ditemukan
+        
     }
     
     public function cash_flow_five_year_ago($symbol)

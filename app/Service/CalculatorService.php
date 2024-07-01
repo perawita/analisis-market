@@ -51,6 +51,7 @@ class CalculatorService extends YahooFinanceApiService
         $present = (float)str_replace(',', '', $present);
         $past = (float)str_replace(',', '', $past);
 
+
         return $growth_rate = (($present - $past) / $past) * 100;
     }
 

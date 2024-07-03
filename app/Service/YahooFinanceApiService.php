@@ -20,43 +20,34 @@ class YahooFinanceApiService extends CrawlerService
         
         return (float)str_replace(',', '', $crawler->filter('.livePrice')->text() ?? 0);;
     }
-
+    
     public function eps($symbol)
     {
         if (is_null($symbol) || empty($symbol)) {
             throw new \InvalidArgumentException("Symbol cannot be null or empty");
         }
         
-        $url = 'https://finance.yahoo.com/quote/' . $symbol . '/financials/';
+        $url = 'https://finance.yahoo.com/quote/' . $symbol . '?p=' . $symbol . '&tsrc=fin-srch';
         $crawler = $this->main($url);
     
-        $response = $crawler->filter('div.tableContainer.svelte-1pgoo1f div.table.svelte-1pgoo1f')->each(function ($table) {
-            $labels = $table->filter('div.tableHeader.svelte-1pgoo1f')->first()->filter('div.column.svelte-1ezv2n5')->each(function ($column) {
-                return $column->text();
-            });
-
-
-            $values = $table->filter('div.tableBody.svelte-1pgoo1f div.row.lv-0.svelte-1xjz32c')->each(function ($row) {
-                return $row->filter('div.column.svelte-1xjz32c')->each(function ($column) {
-                    return $column->text();
-                });
-            });
-
+        $response = $crawler->filter('div[data-testid="quote-statistics"] ul li')->each(function ($node) {
             return [
-                'labels' => $labels,
-                'values' => $values,
+                'label' => $node->filter('span:nth-child(1)')->text(),
+                'value' => $node->filter('span:nth-child(2)')->text()
             ];
         });
-        
-
-        $index = array_search("Basic EPS", array_column($response[0]['values'], 0));
-
-        // Jika ditemukan, ambil nilai "Basic EPS"
+    
+        $index = array_search("EPS (TTM)", array_column($response, 'label'));
+    
+        // Jika ditemukan, ambil nilai "EPS (TTM)"
         if ($index !== false) {
-            $basic_eps_values = array_slice($response[0]['values'][$index], 1); 
-            return (float)$basic_eps_values[0];
+            $eps_value = $response[$index]['value'];
+            return (float)str_replace(',', '', $eps_value); // Menghapus koma jika ada dan mengkonversi ke float
+        } else {
+            throw new \Exception("EPS (TTM) data not found.");
         }
     }
+    
 
     public function eps_five_year_ago($symbol)
     {
@@ -94,6 +85,57 @@ class YahooFinanceApiService extends CrawlerService
             return $basic_eps_values;
         }
     }
+
+    public function eps_year_of_year($symbol)
+    {
+        if (is_null($symbol) || empty($symbol)) {
+            throw new \InvalidArgumentException("Symbol cannot be null or empty");
+        }
+        
+        $url = 'https://finance.yahoo.com/quote/' . $symbol . '/financials/';
+        $crawler = $this->main($url);
+
+        $response = $crawler->filter('div.tableContainer.svelte-1pgoo1f div.table.svelte-1pgoo1f')->each(function ($table) {
+            $labels = $table->filter('div.tableHeader.svelte-1pgoo1f')->first()->filter('div.column.svelte-1ezv2n5')->each(function ($column) {
+                return $column->text();
+            });
+
+            $values = $table->filter('div.tableBody.svelte-1pgoo1f div.row.lv-0.svelte-1xjz32c')->each(function ($row) {
+                return $row->filter('div.column.svelte-1xjz32c')->each(function ($column) {
+                    return $column->text();
+                });
+            });
+
+            return [
+                'labels' => $labels,
+                'values' => $values,
+            ];
+        });
+
+        // Cari indeks untuk "Basic EPS"
+        $index = null;
+        foreach ($response[0]['values'] as $key => $value) {
+            if (isset($value[0]) && $value[0] == "Basic EPS") {
+                $index = $key;
+                break;
+            }
+        }
+
+        // Jika ditemukan, ambil nilai "Basic EPS"
+        if ($index !== null) {
+            $basic_eps_values = array_slice($response[0]['values'][$index], 1);
+
+            // Ambil EPS dari lima tahun yang lalu, asumsi bahwa data diurutkan dari yang terbaru
+            if (count($basic_eps_values) >= 5) {
+                return $basic_eps_values[count($basic_eps_values) - 5];
+            } else {
+                throw new \Exception("Not enough data to retrieve EPS from five years ago.");
+            }
+        } else {
+            throw new \Exception("Basic EPS data not found.");
+        }
+    }
+
 
     public function cash_flow_one_year_ago($symbol)
     {

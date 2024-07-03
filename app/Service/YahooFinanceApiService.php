@@ -9,7 +9,7 @@ use DateTime;
 class YahooFinanceApiService extends CrawlerService
 {
 
-    public function live_price($symbol)
+    protected function live_price($symbol)
     {
         if (is_null($symbol) || empty($symbol)) {
             throw new \InvalidArgumentException("Symbol cannot be null or empty");
@@ -21,7 +21,7 @@ class YahooFinanceApiService extends CrawlerService
         return (float)str_replace(',', '', $crawler->filter('.livePrice')->text() ?? 0);;
     }
     
-    public function eps($symbol)
+    protected function eps($symbol)
     {
         if (is_null($symbol) || empty($symbol)) {
             throw new \InvalidArgumentException("Symbol cannot be null or empty");
@@ -47,9 +47,35 @@ class YahooFinanceApiService extends CrawlerService
             throw new \Exception("EPS (TTM) data not found.");
         }
     }
+        
+    protected function pe($symbol)
+    {
+        if (is_null($symbol) || empty($symbol)) {
+            throw new \InvalidArgumentException("Symbol cannot be null or empty");
+        }
+        
+        $url = 'https://finance.yahoo.com/quote/' . $symbol . '?p=' . $symbol . '&tsrc=fin-srch';
+        $crawler = $this->main($url);
     
+        $response = $crawler->filter('div[data-testid="quote-statistics"] ul li')->each(function ($node) {
+            return [
+                'label' => $node->filter('span:nth-child(1)')->text(),
+                'value' => $node->filter('span:nth-child(2)')->text()
+            ];
+        });
+    
+        $index = array_search("PE Ratio (TTM)", array_column($response, 'label'));
+    
+        // Jika ditemukan, ambil nilai "PE Ratio (TTM)"
+        if ($index !== false) {
+            $eps_value = $response[$index]['value'];
+            return (float)str_replace(',', '', $eps_value); // Menghapus koma jika ada dan mengkonversi ke float
+        } else {
+            throw new \Exception("PE Ratio (TTM) data not found.");
+        }
+    }
 
-    public function eps_five_year_ago($symbol)
+    protected function eps_five_year_ago($symbol)
     {
         if (is_null($symbol) || empty($symbol)) {
             throw new \InvalidArgumentException("Symbol cannot be null or empty");
@@ -86,7 +112,7 @@ class YahooFinanceApiService extends CrawlerService
         }
     }
 
-    public function eps_year_of_year($symbol)
+    protected function eps_year_of_year($symbol)
     {
         if (is_null($symbol) || empty($symbol)) {
             throw new \InvalidArgumentException("Symbol cannot be null or empty");
@@ -137,13 +163,13 @@ class YahooFinanceApiService extends CrawlerService
     }
 
 
-    public function cash_flow_one_year_ago($symbol)
+    protected function cash_flow_one_year_ago($symbol)
     {
         if (is_null($symbol) || empty($symbol)) {
             throw new \InvalidArgumentException("Symbol cannot be null or empty");
         }
 
-        $url = 'https://finance.yahoo.com/quote/' . $symbol . '/cash-flow/';
+        $url = 'https://finance.yahoo.com/quote/' . $symbol . '/financials/';
 
         $crawler_service = new CrawlerService;
         $crawler = $crawler_service->main($url);
@@ -166,7 +192,7 @@ class YahooFinanceApiService extends CrawlerService
         });
 
         
-        $desired_labels = ["Operating Cash Flow", "Cash Flows from Used in Operating Activities Direct"];
+        $desired_labels = ["Diluted EPS"];
         $index = false;
         
         // Cari indeks dari label yang diinginkan
@@ -196,13 +222,13 @@ class YahooFinanceApiService extends CrawlerService
         
     }
 
-    public function cash_flow_now($symbol)
+    protected function cash_flow_now($symbol)
     {
         if (is_null($symbol) || empty($symbol)) {
             throw new \InvalidArgumentException("Symbol cannot be null or empty");
         }
 
-        $url = 'https://finance.yahoo.com/quote/' . $symbol . '/cash-flow/';
+        $url = 'https://finance.yahoo.com/quote/' . $symbol . '/financials/';
 
         $crawler_service = new CrawlerService;
         $crawler = $crawler_service->main($url);
@@ -225,7 +251,7 @@ class YahooFinanceApiService extends CrawlerService
         });
 
         
-        $desired_labels = ["Operating Cash Flow", "Cash Flows from Used in Operating Activities Direct"];
+        $desired_labels = ["Diluted EPS"];
         $index = false;
         
         // Cari indeks dari label yang diinginkan
@@ -254,14 +280,15 @@ class YahooFinanceApiService extends CrawlerService
         return 0.00; // Kembalikan 0.00 jika label tidak ditemukan
         
     }
-    
-    public function cash_flow_five_year_ago($symbol)
+
+    protected function cash_flow_two_year_ago($symbol)
     {
+
         if (is_null($symbol) || empty($symbol)) {
             throw new \InvalidArgumentException("Symbol cannot be null or empty");
         }
 
-        $url = 'https://finance.yahoo.com/quote/' . $symbol . '/cash-flow/';
+        $url = 'https://finance.yahoo.com/quote/' . $symbol . '/financials/';
 
         $crawler_service = new CrawlerService;
         $crawler = $crawler_service->main($url);
@@ -284,9 +311,68 @@ class YahooFinanceApiService extends CrawlerService
         });
 
         
-        $index = array_search("Operating Cash Flow", array_column($response[0]['values'], 0));
-
+        $desired_labels = ["Diluted EPS"];
+        $index = false;
+        
+        // Cari indeks dari label yang diinginkan
+        foreach ($desired_labels as $label) {
+            $index = array_search($label, array_column($response[0]['values'], 0));
+            if ($index !== false) {
+                break;
+            }
+        }
+        
         // Jika ditemukan, ambil nilai "Operating Cash Flow"
+        if ($index !== false) {
+            $operating_cash_flow = array_slice($response[0]['values'][$index], 3);
+            
+            $valid_cash_flow_values = [];
+            foreach ($operating_cash_flow as $cash_flow) {
+                if ($cash_flow !== "--") {
+                    $valid_cash_flow_values[] = $cash_flow;
+                }
+            }
+        
+            // Ambil nilai ke-2 jika ada, jika tidak, kembalikan 0.00
+            return $valid_cash_flow_values[0] ?? 0.00;
+        }
+        
+        return 0.00; // Kembalikan 0.00 jika label tidak ditemukan
+        
+    }
+    
+    protected function cash_flow_five_year_ago($symbol)
+    {
+        if (is_null($symbol) || empty($symbol)) {
+            throw new \InvalidArgumentException("Symbol cannot be null or empty");
+        }
+
+        $url = 'https://finance.yahoo.com/quote/' . $symbol . '/financials/';
+
+        $crawler_service = new CrawlerService;
+        $crawler = $crawler_service->main($url);
+
+        $response = $crawler->filter('div.tableContainer.svelte-1pgoo1f div.table.svelte-1pgoo1f')->each(function ($table) {
+            $labels = $table->filter('div.tableHeader.svelte-1pgoo1f')->first()->filter('div.column.svelte-1ezv2n5')->each(function ($column) {
+                return $column->text();
+            });
+                
+            $values = $table->filter('div.tableBody.svelte-1pgoo1f div.row.lv-0.svelte-1xjz32c')->each(function ($row) {
+                return $row->filter('div.column.svelte-1xjz32c')->each(function ($column) {
+                    return $column->text();
+                });
+            });
+
+            return [
+                'labels' => $labels,
+                'values' => $values,
+            ];
+        });
+
+        
+        $index = array_search("Diluted EPS", array_column($response[0]['values'], 0));
+
+        // Jika ditemukan, ambil nilai "Diluted EPS"
         if ($index !== false) {
             $operating_cash_flow = array_slice($response[0]['values'][$index], 1); 
             
@@ -298,6 +384,32 @@ class YahooFinanceApiService extends CrawlerService
 
             return $valid_cash_flow_values;
         }
+        return 0.00; 
+    }
+
+    protected function cash_flow_history($symbol)
+    {
+        
+        if (is_null($symbol) || empty($symbol)) {
+            throw new \InvalidArgumentException("Symbol cannot be null or empty");
+        }
+        
+        $periode2 = time();
+        $periode1 = strtotime('-3 years', $periode2);
+        $url = 'https://finance.yahoo.com/quote/' . $symbol . '/history/?period1='.$periode1.'&period2='. $periode2;
+
+        $crawler_service = new CrawlerService;
+        $crawler = $crawler_service->main($url);
+
+        $response = $crawler->filter('[data-testid="history-table"] tbody tr')->each(function ($node) {
+            $rowData = [];
+            $node->filter('td')->each(function ($tdNode) use (&$rowData) {
+                $rowData[] = $tdNode->text();
+            });
+            return $rowData;
+        });
+
+        return $response;
     }
 
 }

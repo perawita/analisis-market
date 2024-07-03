@@ -494,7 +494,9 @@ class ScrapingController extends Controller
     public function history($symbol)
     {
         try {
-            $url = 'https://finance.yahoo.com/quote/' . $symbol . '/history/';
+            $periode2 = time();
+            $periode1 = strtotime('-5 years', $periode2);
+            $url = 'https://finance.yahoo.com/quote/' . $symbol . '/history/?period1='.$periode1.'&period2='. $periode2;
 
             $crawler_service = new CrawlerService;
             $crawler = $crawler_service->main($url);

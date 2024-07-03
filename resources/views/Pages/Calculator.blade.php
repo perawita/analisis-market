@@ -57,8 +57,8 @@
                         </div>
 
                         <div class="col-md-3">
-                            <label for="growth_rate" class="form-label">Growth rate (%)</label>
-                            <input type="text" class="form-control" id="growth_rate" value="{{ number_format($results['intrinsic_value']['growth_rate'] * 100, 2) }}%" readonly>
+                            <label for="growth_rate" class="form-label">Growth rate anual (%)</label>
+                            <input type="text" class="form-control" id="growth_rate" value="{{ number_format($results['intrinsic_value']['growth_rate'], 2) }}%" readonly>
                         </div>
 
                         <div class="col-md-4">

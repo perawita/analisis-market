@@ -441,7 +441,7 @@ class YahooFinanceApiService extends CrawlerService
         });
 
         
-        $desired_labels = ["Cash Flows from Used in Operating Activities Direct"];
+        $desired_labels = ["Cash Flows from Used in Operating Activities Direct", "Operating Cash Flow"];
         $index = false;
         
         // Cari indeks dari label yang diinginkan
@@ -551,7 +551,7 @@ class YahooFinanceApiService extends CrawlerService
         // Jika ditemukan, ambil nilai "Forward Dividend & Yield"
         if ($index !== false) {
             $eps_value = $response[$index]['value'];
-            return (float)str_replace(',', '', $eps_value); // Menghapus koma jika ada dan mengkonversi ke float
+            return $eps_value;
         } else {
             throw new \Exception("Forward Dividend & Yield data not found.");
         }

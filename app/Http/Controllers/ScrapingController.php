@@ -116,8 +116,8 @@ class ScrapingController extends Controller
                     'Financials',
                     'Analysis',
                     'Statistics',
-                    'Profile',
                     'Historical Data',
+                    'Profile',
                 ];
 
 
@@ -664,12 +664,26 @@ class ScrapingController extends Controller
                 }
 
                 $profiles = $this->profiles($symbol);
+                $summary = $this->summary($symbol);
+
+                $yahoo_services = new YahooFinanceApiService();
+                $eps = $yahoo_services->eps($symbol);
+                $cash_flow = $yahoo_services->cash_flow($symbol);
+                $free_cash_flow = $yahoo_services->free_cash_flow($symbol);
+                $deviden = $yahoo_services->deviden($symbol);
+                $PeR = $yahoo_services->pe($symbol);
+
 
                 return view('Pages.Profile', [
                     'navItems' => $profiles['navItems'],
                     'headerData' => $profiles['headerData'],
                     'priceData' => $profiles['priceData'],
-                    'response' => $response
+                    'response' => $response,
+                    'eps' => $eps,
+                    'cash_flow' => $cash_flow,
+                    'free_cash_flow' => $free_cash_flow,
+                    'deviden' => $deviden,
+                    'PeR' => $PeR
                 ]);
             } else {
                 throw new \Exception("Element not found");

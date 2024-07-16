@@ -556,5 +556,239 @@ class YahooFinanceApiService extends CrawlerService
             throw new \Exception("Forward Dividend & Yield data not found.");
         }
     }
-    
+
+    private function common_stock_equity($symbol)
+    {
+        if (is_null($symbol) || empty($symbol)) {
+            throw new \InvalidArgumentException("Symbol cannot be null or empty");
+        }
+
+        $url = 'https://finance.yahoo.com/quote/' . $symbol . '/balance-sheet/';
+
+        $crawler_service = new CrawlerService;
+        $crawler = $crawler_service->main($url);
+
+        $response = $crawler->filter('div.tableContainer.svelte-1pgoo1f div.table.svelte-1pgoo1f')->each(function ($table) {
+            $labels = $table->filter('div.tableHeader.svelte-1pgoo1f')->first()->filter('div.column.svelte-1ezv2n5')->each(function ($column) {
+                return $column->text();
+            });
+
+
+            $values = $table->filter('div.tableBody.svelte-1pgoo1f div.row.lv-0.svelte-1xjz32c')->each(function ($row) {
+                return $row->filter('div.column.svelte-1xjz32c')->each(function ($column) {
+                    return $column->text();
+                });
+            });
+
+            return [
+                'labels' => $labels,
+                'values' => $values,
+            ];
+        });
+
+        
+        $desired_labels = ["Common Stock Equity"];
+        $index = false;
+        
+        // Cari indeks dari label yang diinginkan
+        foreach ($desired_labels as $label) {
+            $index = array_search($label, array_column($response[0]['values'], 0));
+            if ($index !== false) {
+                break;
+            }
+        }
+        
+        // Jika ditemukan, ambil nilai "Operating Cash Flow"
+        if ($index !== false) {
+            $operating_cash_flow = array_slice($response[0]['values'][$index], 1);
+            
+            $valid_cash_flow_values = [];
+            foreach ($operating_cash_flow as $cash_flow) {
+                if ($cash_flow !== "--") {
+                    $valid_cash_flow_values[] = $cash_flow;
+                }
+            }
+        
+            // Ambil nilai ke-2 jika ada, jika tidak, kembalikan 0.00
+            return $valid_cash_flow_values[0] ?? 0.00;
+        }
+        
+        return 0.00; // Kembalikan 0.00 jika label tidak ditemukan
+        
+    }
+
+    private function ordinary_shares_number($symbol)
+    {
+        if (is_null($symbol) || empty($symbol)) {
+            throw new \InvalidArgumentException("Symbol cannot be null or empty");
+        }
+
+        $url = 'https://finance.yahoo.com/quote/' . $symbol . '/balance-sheet/';
+
+        $crawler_service = new CrawlerService;
+        $crawler = $crawler_service->main($url);
+
+
+        $response = $crawler->filter('div.tableContainer.svelte-1pgoo1f div.table.svelte-1pgoo1f')->each(function ($table) {
+            $labels = $table->filter('div.tableHeader.svelte-1pgoo1f')->first()->filter('div.column.svelte-1ezv2n5')->each(function ($column) {
+                return $column->text();
+            });
+
+
+            $values = $table->filter('div.tableBody.svelte-1pgoo1f div.row.lv-0.svelte-1xjz32c')->each(function ($row) {
+                return $row->filter('div.column.svelte-1xjz32c')->each(function ($column) {
+                    return $column->text();
+                });
+            });
+
+            return [
+                'labels' => $labels,
+                'values' => $values,
+            ];
+        });
+
+        
+        $desired_labels = ["Ordinary Shares Number"];
+        $index = false;
+        
+        // Cari indeks dari label yang diinginkan
+        foreach ($desired_labels as $label) {
+            $index = array_search($label, array_column($response[0]['values'], 0));
+            if ($index !== false) {
+                break;
+            }
+        }
+        
+        
+        if ($index !== false) {
+            $operating_cash_flow = array_slice($response[0]['values'][$index], 1);
+            
+            $valid_cash_flow_values = [];
+            foreach ($operating_cash_flow as $cash_flow) {
+                if ($cash_flow !== "--") {
+                    $valid_cash_flow_values[] = $cash_flow;
+                }
+            }
+        
+            
+            return $valid_cash_flow_values[0] ?? 0.00;
+        }
+        
+        return 0.00; 
+        
+    }
+
+    public function book_value_per_share($symbol)
+    {
+        $common_stock_equity = $this->common_stock_equity($symbol);
+        $ordinary_shares_number = $this->ordinary_shares_number($symbol);
+        $common_stock_equity = (float)str_replace(',', '', $common_stock_equity);
+        $ordinary_shares_number = (float)str_replace(',', '', $ordinary_shares_number);
+        return $common_stock_equity / $ordinary_shares_number;
+    }
+
+    private function balance_sheet($symbol)
+    {
+        if (is_null($symbol) || empty($symbol)) {
+            throw new \InvalidArgumentException("Symbol cannot be null or empty");
+        }
+
+        $url = 'https://finance.yahoo.com/quote/' . $symbol . '/balance-sheet/';
+
+        $crawler_service = new CrawlerService;
+        $crawler = $crawler_service->main($url);
+
+
+        $response = $crawler->filter('div.tableContainer.svelte-1pgoo1f div.table.svelte-1pgoo1f')->each(function ($table) {
+            $labels = $table->filter('div.tableHeader.svelte-1pgoo1f')->first()->filter('div.column.svelte-1ezv2n5')->each(function ($column) {
+                return $column->text();
+            });
+
+
+            $values = $table->filter('div.tableBody.svelte-1pgoo1f div.row.lv-0.svelte-1xjz32c')->each(function ($row) {
+                return $row->filter('div.column.svelte-1xjz32c')->each(function ($column) {
+                    return $column->text();
+                });
+            });
+
+            return [
+                'labels' => $labels,
+                'values' => $values,
+            ];
+        });
+
+        return $response;
+    }
+
+    private function filter($symbol, $desired_labels)
+    {
+        $response = $this->balance_sheet($symbol);
+        $index = false;
+        
+        // Cari indeks dari label yang diinginkan
+        foreach ($desired_labels as $label) {
+            $index = array_search($label, array_column($response[0]['values'], 0));
+            if ($index !== false) {
+                break;
+            }
+        }
+        
+        
+        if ($index !== false) {
+            $operating_cash_flow = array_slice($response[0]['values'][$index], 1);
+            
+            $valid_cash_flow_values = [];
+            foreach ($operating_cash_flow as $cash_flow) {
+                if ($cash_flow !== "--") {
+                    $valid_cash_flow_values[] = $cash_flow;
+                }
+            }
+        
+            
+            return $valid_cash_flow_values[0] ?? 0.00;
+        }
+        
+        return 0.00; 
+    }
+
+    public function solvabilitas($symbol)
+    {
+        $total_assets = $this->filter($symbol, ["Total Assets"]);
+        $total_liabilities_net_minority_interest = $this->filter($symbol, ["Total Liabilities Net Minority Interest"]);
+        $total_equity_gross_minority_interest = $this->filter($symbol, ["Total Equity Gross Minority Interest"]);
+
+        
+        $total_assets = (float)str_replace(',', '', $total_assets);
+        $total_liabilities_net_minority_interest = (float)str_replace(',', '', $total_liabilities_net_minority_interest);
+        $total_equity_gross_minority_interest = (float)str_replace(',', '', $total_equity_gross_minority_interest);
+
+        $debt_to_equity_ratio = $total_liabilities_net_minority_interest / $total_equity_gross_minority_interest;
+        $equity_ratio = $total_equity_gross_minority_interest / $total_assets;
+
+        return [
+            'debt_to_equity_ratio' => $debt_to_equity_ratio,
+            'equity_ratio' => $equity_ratio
+        ];
+    }
+
+    public function likuiditas($symbol)
+    {
+        $total_assets = $this->filter($symbol, ["Total Assets"]);
+        $total_liabilities_net_minority_interest = $this->filter($symbol, ["Total Liabilities Net Minority Interest"]);
+        $total_equity_gross_minority_interest = $this->filter($symbol, ["Total Equity Gross Minority Interest"]);
+
+        
+        $total_assets = (float)str_replace(',', '', $total_assets);
+        $total_liabilities_net_minority_interest = (float)str_replace(',', '', $total_liabilities_net_minority_interest);
+        $total_equity_gross_minority_interest = (float)str_replace(',', '', $total_equity_gross_minority_interest);
+
+        $debt_to_equity_ratio = $total_liabilities_net_minority_interest / $total_equity_gross_minority_interest;
+        $equity_ratio = $total_equity_gross_minority_interest / $total_assets;
+
+        return [
+            'debt_to_equity_ratio' => $debt_to_equity_ratio,
+            'equity_ratio' => $equity_ratio
+        ];
+    }
+
 }

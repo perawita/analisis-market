@@ -312,6 +312,17 @@ class ScrapingController extends Controller
 
                 $profiles = $this->profiles($symbol);
 
+                
+
+                $yahoo_services = new YahooFinanceApiService();
+                $eps = $yahoo_services->eps($symbol);
+                $cash_flow = $yahoo_services->cash_flow($symbol);
+                $free_cash_flow = $yahoo_services->free_cash_flow($symbol);
+                $deviden = $yahoo_services->deviden($symbol);
+                $PeR = $yahoo_services->pe($symbol);
+                $bvps = $yahoo_services->book_value_per_share($symbol);
+                $solvabilitas = $yahoo_services->solvabilitas($symbol);
+
                 return view('Pages.Summary', [
                     'symbol' => $symbol,
                     'compareTitle' => $title,
@@ -321,6 +332,14 @@ class ScrapingController extends Controller
                     'headerData' => $profiles['headerData'],
                     'priceData' => $profiles['priceData'],
                     'statistics' => $statistics,
+                    'eps' => $eps,
+                    'cash_flow' => $cash_flow,
+                    'free_cash_flow' => $free_cash_flow,
+                    'deviden' => $deviden,
+                    'PeR' => $PeR,
+                    'bvps' => number_format($bvps, 2),
+                    'debt_to_equity_ratio' => number_format($solvabilitas['debt_to_equity_ratio'], 2),
+                    'equity_ratio' => number_format($solvabilitas['equity_ratio'], 2)
                 ]);
             } else {
                 throw new \Exception("Element not found");
@@ -666,24 +685,12 @@ class ScrapingController extends Controller
                 $profiles = $this->profiles($symbol);
                 $summary = $this->summary($symbol);
 
-                $yahoo_services = new YahooFinanceApiService();
-                $eps = $yahoo_services->eps($symbol);
-                $cash_flow = $yahoo_services->cash_flow($symbol);
-                $free_cash_flow = $yahoo_services->free_cash_flow($symbol);
-                $deviden = $yahoo_services->deviden($symbol);
-                $PeR = $yahoo_services->pe($symbol);
-
 
                 return view('Pages.Profile', [
                     'navItems' => $profiles['navItems'],
                     'headerData' => $profiles['headerData'],
                     'priceData' => $profiles['priceData'],
                     'response' => $response,
-                    'eps' => $eps,
-                    'cash_flow' => $cash_flow,
-                    'free_cash_flow' => $free_cash_flow,
-                    'deviden' => $deviden,
-                    'PeR' => $PeR
                 ]);
             } else {
                 throw new \Exception("Element not found");

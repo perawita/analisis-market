@@ -68,14 +68,6 @@
                             <td class="border">SOLVABILITY</td>
                             <td class="border">(Debt to Equity Ratio) {{$debt_to_equity_ratio}} / (Equity Ratio) {{$equity_ratio}} </td> 
                         </tr>
-                        <tr>
-                            <td class="border">LIQUIDTY</td>
-                            <td class="border">---</td>
-                        </tr>
-                        <tr>
-                            <td class="border">PROFITABILTY</td>
-                            <td class="border">---</td>
-                        </tr>
                     </tbody>
                 </table>
             </div>

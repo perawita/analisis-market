@@ -11,23 +11,27 @@
                     Statistics
                 </div>
 
-
-                <table class="table table-bordered border-primary">
-                    <thead>
-                        <tr>
-                            <th class="border">Label</th>
-                            <th class="border">Value</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($response as $data)
-                            <tr>
-                                <td class="border">{{ $data['label'] }}</td>
-                                <td class="border">{{ $data['value'] }}</td>
-                            </tr>
+<table class="table table-bordered border-primary">
+    <thead>
+        <tr>
+            <th class="border">Label</th>
+            <th class="border">Values</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($response as $data)
+            <tr>
+                <td class="border">{{ $data['label'] }}</td>
+                <td class="border">
+                        @foreach ($data['values'] as $value)
+                            {{ $value }}
                         @endforeach
-                    </tbody>
-                </table>
+                </td>
+            </tr>
+        @endforeach
+    </tbody>
+</table>
+
             </div>
         </div>
     </div>

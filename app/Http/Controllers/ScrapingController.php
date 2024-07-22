@@ -312,7 +312,6 @@ class ScrapingController extends Controller
 
                 $profiles = $this->profiles($symbol);
 
-                
 
                 $yahoo_services = new YahooFinanceApiService();
                 $eps = $yahoo_services->eps($symbol);
@@ -322,6 +321,8 @@ class ScrapingController extends Controller
                 $PeR = $yahoo_services->pe($symbol);
                 $bvps = $yahoo_services->book_value_per_share($symbol);
                 $solvabilitas = $yahoo_services->solvabilitas($symbol);
+
+                
 
                 return view('Pages.Summary', [
                     'symbol' => $symbol,
@@ -725,12 +726,15 @@ class ScrapingController extends Controller
                         ];
                     });
                 } else {
-                    $response = $crawler->filter('div.table-container.svelte-104jbnt table tbody tr')->each(function ($item) {
+                    $response = $crawler->filter('div.table-container.yf-104jbnt table tbody tr')->each(function ($item) {
                         $label = $item->filter('td:first-child')->text();
-                        $value = $item->filter('td:last-child')->text();
+                        $values = $item->filter('td:not(:first-child)')->each(function ($value) {
+                            return $value->text();
+                        });
+                    
                         return [
                             'label' => $label,
-                            'value' => $value,
+                            'values' => $values,
                         ];
                     });
                 }
@@ -777,23 +781,26 @@ class ScrapingController extends Controller
                         ];
                     });
                 } else {
-                    $response = $crawler->filter('div.tableContainer.svelte-1pgoo1f div.table.svelte-1pgoo1f')->each(function ($table) {
-                        $labels = $table->filter('div.tableHeader.svelte-1pgoo1f')->first()->filter('div.column.svelte-1ezv2n5')->each(function ($column) {
+                    $response = $crawler->filter('section.container.yf-1pgoo1f')->each(function ($section) {
+                        $table = $section->filter('div.table.yf-1pgoo1f')->first();
+                    
+                        $labels = $table->filter('div.tableHeader.yf-1pgoo1f div.row.yf-1ezv2n5')->first()->filter('div.column.yf-1ezv2n5')->each(function ($column) {
                             return $column->text();
                         });
-
-
-                        $values = $table->filter('div.tableBody.svelte-1pgoo1f div.row.lv-0.svelte-1xjz32c')->each(function ($row) {
-                            return $row->filter('div.column.svelte-1xjz32c')->each(function ($column) {
+                    
+                        $rows = $table->filter('div.tableBody.yf-1pgoo1f div.row.lv-0.yf-1xjz32c')->each(function ($row) {
+                            $rowData = $row->filter('div.column.yf-1xjz32c')->each(function ($column) {
                                 return $column->text();
                             });
+                            return $rowData;
                         });
-
+                    
                         return [
                             'labels' => $labels,
-                            'values' => $values,
+                            'values' => $rows,
                         ];
                     });
+                    
 
                     $navLink = $crawler->filter('nav[aria-label="financials"] ul.nav-list li a')->each(function ($node) {
                         if (trim($node->text()) !== 'Dividends' && $node->attr('href') !== '/quote/AAPL/dividends') {
@@ -851,23 +858,26 @@ class ScrapingController extends Controller
                         ];
                     });
                 } else {
-                    $response = $crawler->filter('div.tableContainer.svelte-1pgoo1f div.table.svelte-1pgoo1f')->each(function ($table) {
-                        $labels = $table->filter('div.tableHeader.svelte-1pgoo1f')->first()->filter('div.column.svelte-1ezv2n5')->each(function ($column) {
+                    $response = $crawler->filter('section.container.yf-1pgoo1f')->each(function ($section) {
+                        $table = $section->filter('div.table.yf-1pgoo1f')->first();
+                    
+                        $labels = $table->filter('div.tableHeader.yf-1pgoo1f div.row.yf-1ezv2n5')->first()->filter('div.column.yf-1ezv2n5')->each(function ($column) {
                             return $column->text();
                         });
-
-
-                        $values = $table->filter('div.tableBody.svelte-1pgoo1f div.row.lv-0.svelte-1xjz32c')->each(function ($row) {
-                            return $row->filter('div.column.svelte-1xjz32c')->each(function ($column) {
+                    
+                        $rows = $table->filter('div.tableBody.yf-1pgoo1f div.row.lv-0.yf-1xjz32c')->each(function ($row) {
+                            $rowData = $row->filter('div.column.yf-1xjz32c')->each(function ($column) {
                                 return $column->text();
                             });
+                            return $rowData;
                         });
-
+                    
                         return [
                             'labels' => $labels,
-                            'values' => $values,
+                            'values' => $rows,
                         ];
                     });
+                    
 
                     $navLink = $crawler->filter('nav[aria-label="financials"] ul.nav-list li a')->each(function ($node) {
                         if (trim($node->text()) !== 'Dividends' && $node->attr('href') !== '/quote/AAPL/dividends') {
@@ -925,23 +935,26 @@ class ScrapingController extends Controller
                         ];
                     });
                 } else {
-                    $response = $crawler->filter('div.tableContainer.svelte-1pgoo1f div.table.svelte-1pgoo1f')->each(function ($table) {
-                        $labels = $table->filter('div.tableHeader.svelte-1pgoo1f')->first()->filter('div.column.svelte-1ezv2n5')->each(function ($column) {
+                    $response = $crawler->filter('section.container.yf-1pgoo1f')->each(function ($section) {
+                        $table = $section->filter('div.table.yf-1pgoo1f')->first();
+                    
+                        $labels = $table->filter('div.tableHeader.yf-1pgoo1f div.row.yf-1ezv2n5')->first()->filter('div.column.yf-1ezv2n5')->each(function ($column) {
                             return $column->text();
                         });
-
-
-                        $values = $table->filter('div.tableBody.svelte-1pgoo1f div.row.lv-0.svelte-1xjz32c')->each(function ($row) {
-                            return $row->filter('div.column.svelte-1xjz32c')->each(function ($column) {
+                    
+                        $rows = $table->filter('div.tableBody.yf-1pgoo1f div.row.lv-0.yf-1xjz32c')->each(function ($row) {
+                            $rowData = $row->filter('div.column.yf-1xjz32c')->each(function ($column) {
                                 return $column->text();
                             });
+                            return $rowData;
                         });
-
+                    
                         return [
                             'labels' => $labels,
-                            'values' => $values,
+                            'values' => $rows,
                         ];
                     });
+                    
 
                     $navLink = $crawler->filter('nav[aria-label="financials"] ul.nav-list li a')->each(function ($node) {
                         if (trim($node->text()) !== 'Dividends' && $node->attr('href') !== '/quote/AAPL/dividends') {

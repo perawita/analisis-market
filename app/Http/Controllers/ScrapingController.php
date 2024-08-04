@@ -117,7 +117,7 @@ class ScrapingController extends Controller
                     'Analysis',
                     'Statistics',
                     'Historical Data',
-                    'Profile',
+                    // 'Profile',
                 ];
 
 

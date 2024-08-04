@@ -257,7 +257,7 @@ class ScrapingController extends Controller
                 });
 
                 $profiles = $this->profiles($symbol);
-                return dd($table_grup);
+                
                 return view('Pages.Compare', [
                     'table_rows' => $table_rows,
                     'table_grup' => $table_grup,

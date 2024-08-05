@@ -215,49 +215,67 @@ class ScrapingController extends Controller
             $crawler = $crawler_service->main($url);
 
             if ($crawler->filter('.table-container')) {
-                $table_rows = $crawler->filter('div.table-container table.compare-overview-table')->each(function ($table) {
+                $table_rows = $crawler->filter('table.compare-overview-table')->each(function ($table) {
+                    $header = $table->filter('thead th')->each(function ($th) {
+                        return $th->text();
+                    });
+                
+                    $rows = $table->filter('tbody tr')->each(function ($tr) {
+                        return $tr->filter('td')->each(function ($td) {
+                            $value = $td->filter('table_rows')->count() > 0 
+                                ? $td->filter('table_rows')->text() 
+                                : $td->text();
+                                
+                            $parts = explode(' --', $value, 2);
+                            return isset($parts[0]) ? trim($parts[0]) : $value;
+                        });
+                    });
+                
                     return [
-                        'labels' => $table->filter('thead th')->each(function ($th) {
-                            return $th->text();
-                        }),
-                        'values' => $table->filter('tbody tr')->each(function ($tr) {
-                            return $tr->filter('td')->each(function ($td) {
-                                return $td->filter('span.value')->count() > 0 ? $td->filter('span.value')->text() : "--";
-                            });
-                        }),
+                        'labels' => $header,
+                        'values' => $rows
                     ];
                 });
-
+                
+                
+                
                 $table_grup = $crawler->filter('div.container div.grid-items div.acc-cont')->each(function ($table) {
                     return [
                         'title_tables' => $table->filter('h3.acc-header')->text(),
                         'table' => $table->filter('table')->each(function ($node) {
-                            return [
-                                'labels' => $node->filter('thead th')->each(function ($th) {
-                                    return $th->text();
-                                }),
-                                'values' => $node->filter('tbody tr')->each(function ($tr) {
-                                    return $tr->filter('td')->each(function ($td) {
-                                        $button = $td->filter('button');
-                                        $value = "--";
-                                        if ($button->count() > 0) {
-                                            $value = $button->filter('span.value')->text();
+                            $labels = $node->filter('thead th')->each(function ($th) {
+                                return $th->text();
+                            });
+                
+                            $values = $node->filter('tbody tr')->each(function ($tr) {
+                                return $tr->filter('td')->each(function ($td) {
+                                    $button = $td->filter('button');
+                                    $value = "";
+                                    if ($button->count() > 0) {
+                                        $value = $button->filter('span.value')->count() > 0 ? $button->filter('span.value')->text() : $button->text();
+                                    } else {
+                                        $div = $td->filter('div');
+                                        if ($div->count() > 0) {
+                                            $value = $div->text();
                                         } else {
-                                            $div = $td->filter('div');
-                                            if ($div->count() > 0) {
-                                                $value = $div->text();
-                                            }
+                                            $value = $td->text();
                                         }
-                                        return $value;
-                                    });
-                                }),
+                                    }
+                                    return $value === "---" ? "" : $value;
+                                });
+                            });
+                
+                            return [
+                                'labels' => $labels,
+                                'values' => $values
                             ];
                         }),
                     ];
                 });
+                
 
                 $profiles = $this->profiles($symbol);
-                
+                // return dd($table_grup);
                 return view('Pages.Compare', [
                     'table_rows' => $table_rows,
                     'table_grup' => $table_grup,
@@ -738,15 +756,47 @@ class ScrapingController extends Controller
                             'values' => $values,
                         ];
                     });
+
+                    $financial_highlights = $crawler->filter('section.yf-14j5zka')->each(function ($section) {
+                        $header = $section->filter('header h3.header')->text();
+                    
+                        // Ambil semua section card
+                        $cards = $section->filter('section.card')->each(function ($card) {
+                            $title = $card->filter('header h3.title')->text();
+                            $rows = $card->filter('table tbody tr')->each(function ($row) {
+                                $label = trim($row->filter('td.label')->text());
+                                $value = trim($row->filter('td.value')->text());
+                    
+                                // Hapus bagian "--" dari nilai jika ada
+                                $value = preg_replace('/\s*--\s*$/', '', $value);
+                    
+                                return [
+                                    'label' => $label,
+                                    'value' => $value
+                                ];
+                            });
+                    
+                            return [
+                                'title' => $title,
+                                'data' => $rows
+                            ];
+                        });
+                    
+                        return [
+                            'header' => $header,
+                            'cards' => $cards
+                        ];
+                    });
                 }
 
                 $profiles = $this->profiles($symbol);
-
+                // return dd($financial_highlights);
                 return view('Pages.Key-statistics', [
                     'navItems' => $profiles['navItems'],
                     'headerData' => $profiles['headerData'],
                     'priceData' => $profiles['priceData'],
-                    'response' => $response
+                    'response' => $response,
+                    'financial_highlights' => $financial_highlights
                 ]);
             } else {
                 throw new \Exception("Element not found");
